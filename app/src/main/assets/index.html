@@ -835,16 +835,15 @@ function updateTimer(){
 }
 function updateStats(){
   document.getElementById('movesNum').textContent = state.moves;
-  document.getElementById('scoreNum').textContent = computeScore();
+  document.getElementById('scoreNum').textContent = state.score;
   document.getElementById('progressBar').style.width = ((state.currentLevel)/TOTAL_LEVELS*100)+'%';
 }
+function computeLevelScore(){
+  // +10 points per level win
+  return 10;
+}
 function computeScore(){
-  if(!state.startTime) return 0;
-  const elapsed = Math.floor((Date.now()-state.startTime)/1000);
-  const base = (state.currentLevel+1)*1000;
-  const timePenalty = elapsed * 2;
-  const movePenalty = state.moves * 5;
-  return Math.max(0, base - timePenalty - movePenalty + state.score);
+  return state.score + computeLevelScore();
 }
 
 /* ============================================================
@@ -863,7 +862,7 @@ function showLevelComplete(){
   const isLast = state.currentLevel >= TOTAL_LEVELS-1;
   
   document.getElementById('completeSummary').innerHTML =
-    `Moves: <b class="text-white">${state.moves}</b> &nbsp;|&nbsp; Time: <b class="text-white">${m}:${s.toString().padStart(2,'0')}</b><br>Score: <b class="text-yellow-400 text-lg">${computeScore()}</b>`;
+    `Moves: <b class="text-white">${state.moves}</b> &nbsp;|&nbsp; Time: <b class="text-white">${m}:${s.toString().padStart(2,'0')}</b><br>Score: <b class="text-yellow-400 text-lg">${state.score + computeLevelScore()}</b>`;
   document.getElementById('completeEmoji').textContent = isLast ? '🏆' : '🎉';
   document.getElementById('continueBtn').textContent = isLast ? 'Play Again 🔄' : 'Continue →';
   
@@ -1002,7 +1001,9 @@ document.getElementById('nextBtn').addEventListener('click',()=>{
 document.getElementById('continueBtn').addEventListener('click',()=>{
   playSound('pick');
   const isLast = state.currentLevel >= TOTAL_LEVELS-1;
-  localStorage.setItem('bsp_score', state.score + computeScore());
+  const levelScore = computeLevelScore();
+  state.score = state.score + levelScore;
+  localStorage.setItem('bsp_score', state.score);
   if(isLast){
     localStorage.setItem('bsp_level','0');
     state.score=0;
