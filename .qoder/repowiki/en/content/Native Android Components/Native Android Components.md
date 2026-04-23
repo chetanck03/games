@@ -8,9 +8,21 @@
 - [strings.xml](file://app/src/main/res/values/strings.xml)
 - [themes.xml](file://app/src/main/res/values/themes.xml)
 - [colors.xml](file://app/src/main/res/values/colors.xml)
+- [ic_launcher.xml](file://app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml)
+- [ic_launcher_round.xml](file://app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml)
+- [ic_launcher_background.xml](file://app/src/main/res/drawable/ic_launcher_background.xml)
+- [ic_launcher_foreground.xml](file://app/src/main/res/drawable/ic_launcher_foreground.xml)
 - [build.gradle.kts](file://app/build.gradle.kts)
 - [libs.versions.toml](file://gradle/libs.versions.toml)
 </cite>
+
+## Update Summary
+**Changes Made**
+- Updated launcher configuration section to reflect new adaptive icon system
+- Added application branding documentation with 'Tube Master Puzzle' name
+- Enhanced system window fitting support documentation
+- Updated icon configuration examples and file structure
+- Added new adaptive icon files documentation
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -29,6 +41,8 @@ This document provides comprehensive technical documentation for the native Andr
 
 The application follows a clean separation of concerns where the native Android layer handles system integration, lifecycle management, and advertising, while the game engine runs within a WebView containing HTML5/CSS3/JavaScript code. This architecture enables efficient cross-platform development while maintaining native performance characteristics.
 
+**Updated** Application branding has been refreshed with the new name 'Tube Master Puzzle' and includes enhanced adaptive icon system support for modern Android devices.
+
 ## Project Structure
 
 The project follows standard Android Gradle Project structure with clear separation between native Android components and web assets:
@@ -45,17 +59,22 @@ C --> G[MainActivity.kt]
 D --> H[values/]
 D --> I[drawable/]
 D --> J[mipmap-anydpi/]
-D --> K[xml/]
-H --> L[strings.xml]
-H --> M[colors.xml]
-H --> N[themes.xml]
-E --> O[index.html]
+D --> K[mipmap-anydpi-v26/]
+D --> L[xml/]
+H --> M[strings.xml]
+H --> N[colors.xml]
+H --> O[themes.xml]
+I --> P[ic_launcher_background.xml]
+I --> Q[ic_launcher_foreground.xml]
+K --> R[ic_launcher.xml]
+K --> S[ic_launcher_round.xml]
+E --> T[index.html]
 end
 subgraph "Build Configuration"
-P[build.gradle.kts] --> Q[Dependencies]
-R[gradle/libs.versions.toml] --> S[Versions]
+U[build.gradle.kts] --> V[Dependencies]
+W[gradle/libs.versions.toml] --> X[Versions]
 end
-G --> O
+G --> T
 G --> F
 ```
 
@@ -164,6 +183,38 @@ Bidirectional communication between WebView and Android:
 - [MainActivity.kt:265-278](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L265-L278)
 - [MainActivity.kt:370-409](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L370-L409)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
+
+### Launcher Configuration and Adaptive Icons
+
+**Updated** The application now features a modern adaptive icon system designed for contemporary Android devices:
+
+#### Adaptive Icon Architecture
+The launcher configuration utilizes Android's adaptive icon system with layered design:
+
+- **Background Layer**: Vector-based geometric pattern with gradient effects
+- **Foreground Layer**: Application-specific icon graphics with shadow effects
+- **Rounded Corners**: Circular launcher icons for round device displays
+- **Safe Area**: Proper padding to prevent clipping on different device shapes
+
+#### Icon File Structure
+The adaptive icon system consists of multiple XML configuration files:
+
+- **ic_launcher.xml**: Square-shaped adaptive icon for standard launcher displays
+- **ic_launcher_round.xml**: Round-shaped adaptive icon for circular launcher displays
+- **Background Elements**: Shared vector backgrounds across both icon variants
+- **Foreground Graphics**: Distinct foreground elements for visual identity
+
+#### Icon Design Specifications
+- **Viewport Dimensions**: 108x108 dp for scalable vector graphics
+- **Color Palette**: Modern gradient backgrounds with transparent foreground elements
+- **Stroke Details**: Subtle grid patterns creating visual texture
+- **Shadow Effects**: Linear gradients for depth perception
+
+**Section sources**
+- [ic_launcher.xml:1-5](file://app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml#L1-L5)
+- [ic_launcher_round.xml:1-5](file://app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml#L1-L5)
+- [ic_launcher_background.xml:1-75](file://app/src/main/res/drawable/ic_launcher_background.xml#L1-L75)
+- [ic_launcher_foreground.xml:1-30](file://app/src/main/res/drawable/ic_launcher_foreground.xml#L1-L30)
 
 ## Architecture Overview
 
@@ -350,9 +401,18 @@ The application theme supports immersive mode:
 - **windowBackground**: Black background for optimal game presentation
 - **windowContentOverlay**: Removes default content overlay
 
+#### System Window Fitting Support
+**Updated** Enhanced system window fitting capabilities:
+
+- **fitsSystemWindows Property**: Enables proper system window handling
+- **Safe Area Insets**: Automatic adaptation to device cutouts and notches
+- **Responsive Layout**: Dynamic adjustment to different screen configurations
+- **Legacy Compatibility**: Maintains backward compatibility with older Android versions
+
 **Section sources**
 - [MainActivity.kt:415-422](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L415-L422)
 - [themes.xml:4-9](file://app/src/main/res/values/themes.xml#L4-L9)
+- [MainActivity.kt:103](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L103)
 
 ### Memory Management and Crash Recovery
 
@@ -377,6 +437,28 @@ Proper resource cleanup during activity lifecycle:
 **Section sources**
 - [MainActivity.kt:231-245](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L231-L245)
 - [MainActivity.kt:149-154](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L149-L154)
+
+### Application Branding and Identity
+
+**Updated** The application now features refreshed branding with the new name 'Tube Master Puzzle':
+
+#### Brand Identity
+The application maintains a cohesive brand identity through:
+
+- **Application Name**: 'Tube Master Puzzle' in strings.xml
+- **Consistent Color Scheme**: Dark theme with accent colors
+- **Modern Iconography**: Adaptive icon system with geometric patterns
+- **Professional Presentation**: Clean, minimalist design language
+
+#### Branding Elements
+- **Primary Color**: Dark background (#000000) for optimal game presentation
+- **Accent Colors**: Orange (#F59E0B) for interactive elements
+- **Typography**: Bold, readable fonts for user interface elements
+- **Visual Hierarchy**: Clear distinction between content and controls
+
+**Section sources**
+- [strings.xml:2](file://app/src/main/res/values/strings.xml#L2)
+- [MainActivity.kt:102](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L102)
 
 ## Dependency Analysis
 
@@ -505,6 +587,14 @@ The application includes built-in performance monitoring:
 2. Verify onDestroy method execution
 3. Check for retained context references
 
+#### Adaptive Icon Issues
+**Updated** **Issue**: Adaptive icons not displaying correctly
+**Solution**: Verify proper icon configuration and device compatibility
+**Diagnostic Steps**:
+1. Check mipmap-anydpi-v26 directory structure
+2. Verify ic_launcher.xml and ic_launcher_round.xml files
+3. Test on different device types and Android versions
+
 **Section sources**
 - [MainActivity.kt:296-302](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L296-L302)
 - [MainActivity.kt:415-422](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L415-L422)
@@ -531,10 +621,13 @@ The native Android components implementation demonstrates modern Android develop
 
 Key achievements include:
 
-- **Seamless System Integration**: Advanced immersive mode implementation with proper lifecycle management
+- **Seamless System Integration**: Advanced immersive mode implementation with proper lifecycle management and enhanced system window fitting support
 - **Robust Security Model**: Comprehensive WebView security configuration and navigation control
 - **Monetization Strategy**: Integrated AdMob solution with strategic ad placement
 - **Performance Optimization**: Memory-efficient architecture with crash recovery mechanisms
+- **Modern Brand Identity**: Refreshed application branding with 'Tube Master Puzzle' and adaptive icon system
 - **User Experience**: Responsive design with graceful degradation and clear error handling
 
-The modular architecture allows for easy maintenance and future enhancements, while the clear separation between native components and web assets enables efficient cross-platform development. This implementation serves as an excellent foundation for similar hybrid applications requiring native system integration alongside web-based content delivery.
+The modular architecture allows for easy maintenance and future enhancements, while the clear separation between native components and web assets enables efficient cross-platform development. The enhanced adaptive icon system ensures proper presentation across diverse Android device ecosystems, and the system window fitting support provides optimal layout behavior on modern devices with varying screen configurations.
+
+This implementation serves as an excellent foundation for similar hybrid applications requiring native system integration alongside web-based content delivery, with particular strength in modern Android compatibility and user experience optimization.

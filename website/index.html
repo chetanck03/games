@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tube Master Puzzle</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#000;color:#fff;min-height:100vh;}
+    a{color:#F59E0B;text-decoration:none;}
+    a:hover{text-decoration:underline;}
+
+    /* Nav */
+    nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+    .nav-brand{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#8B5CF6,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .nav-links{display:flex;gap:24px;}
+    .nav-links a{color:rgba(255,255,255,0.7);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a:hover{color:#fff;text-decoration:none;}
+
+    /* Page container */
+    .page{display:none;padding-top:60px;}
+    .page.active{display:block;}
+
+    /* Home */
+    .hero{min-height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;}
+    .hero-icon{font-size:4rem;margin-bottom:16px;}
+    .hero-title{font-size:3rem;font-weight:900;background:linear-gradient(135deg,#8B5CF6,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+    .hero-subtitle{font-size:1.1rem;color:rgba(255,255,255,0.6);max-width:500px;margin-bottom:32px;line-height:1.6;}
+    .btn-gold{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#8B5CF6,#F59E0B);color:#fff;font-weight:700;border-radius:14px;font-size:1rem;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 20px rgba(139,92,246,0.4),0 0 30px rgba(245,158,11,0.15);}
+    .btn-gold:hover{transform:scale(1.04);text-decoration:none;box-shadow:0 6px 28px rgba(139,92,246,0.5),0 0 40px rgba(245,158,11,0.2);}
+
+    .features{padding:80px 24px;max-width:800px;margin:0 auto;}
+    .features h2{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:40px;}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
+    .feature-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:28px 20px;text-align:center;}
+    .feature-card .icon{font-size:2rem;margin-bottom:12px;}
+    .feature-card h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
+    .feature-card p{font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.5;}
+
+    .footer{padding:40px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);font-size:0.85rem;}
+    .footer a{color:rgba(255,255,255,0.5);}
+
+    /* Privacy */
+    .privacy-content{max-width:720px;margin:0 auto;padding:60px 24px 80px;}
+    .privacy-content h1{font-size:2.2rem;font-weight:800;margin-bottom:8px;}
+    .privacy-content .updated{color:rgba(255,255,255,0.4);font-size:0.9rem;margin-bottom:32px;}
+    .privacy-content h2{font-size:1.3rem;font-weight:700;margin:32px 0 12px;color:#F59E0B;}
+    .privacy-content p,.privacy-content ul{font-size:0.95rem;color:rgba(255,255,255,0.75);line-height:1.8;margin-bottom:12px;}
+    .privacy-content ul{padding-left:20px;}
+    .privacy-content li{margin-bottom:6px;}
+
+    @media(max-width:600px){
+      .hero-title{font-size:2rem;}
+      .hero-subtitle{font-size:0.95rem;}
+      .features h2{font-size:1.4rem;}
+      .privacy-content h1{font-size:1.6rem;}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#home" class="nav-brand">Tube Master Puzzle</a>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#privacy">Privacy Policy</a>
+    </div>
+  </nav>
+
+  <!-- HOME PAGE -->
+  <div id="home" class="page active">
+    <section class="hero">
+      <div class="hero-icon">🧪</div>
+      <h1 class="hero-title">Tube Master Puzzle</h1>
+      <p class="hero-subtitle">Sort the colored balls into the right tubes. A relaxing yet challenging puzzle game that tests your logic and patience.</p>
+      <a href="https://play.google.com/store" class="btn-gold">Get it on Google Play</a>
+    </section>
+
+    <section class="features">
+      <h2>Why You'll Love It</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="icon">🧩</div>
+          <h3>15 Handcrafted Levels</h3>
+          <p>Progressive difficulty from easy to expert — always a new challenge ahead.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🎯</div>
+          <h3>Simple & Intuitive</h3>
+          <p>Tap to move, tap to place. One-finger controls anyone can pick up instantly.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✨</div>
+          <h3>Satisfying Effects</h3>
+          <p>Smooth animations, particle effects, and sound that make every win feel great.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      &copy; 2026 Tube Master Puzzle &middot; <a href="#privacy">Privacy Policy</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
+    </div>
+  </div>
+
+  <!-- PRIVACY POLICY PAGE -->
+  <div id="privacy" class="page">
+    <div class="privacy-content">
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: April 23, 2026</p>
+
+      <p>Tube Master Puzzle ("we", "our", or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard information when you use our mobile application.</p>
+
+      <h2>1. Information We Collect</h2>
+      <p>We collect minimal information to provide and improve our app:</p>
+      <ul>
+        <li><strong>Usage Data:</strong> We collect anonymous usage data such as game progress, level completion, and in-app interactions to improve gameplay experience.</li>
+        <li><strong>Device Information:</strong> We may collect device model, operating system version, and screen resolution for compatibility purposes.</li>
+        <li><strong>Ad-related Data:</strong> Our advertising partners (Google AdMob) may collect device identifiers and usage data to serve relevant ads. See Section 3 for details.</li>
+      </ul>
+      <p>We do <strong>not</strong> collect personal information such as your name, email address, phone number, or location.</p>
+
+      <h2>2. How We Use Information</h2>
+      <ul>
+        <li>To provide and maintain the app's functionality</li>
+        <li>To save your game progress locally on your device</li>
+        <li>To analyze anonymous usage patterns for app improvement</li>
+        <li>To display advertisements through our ad partners</li>
+      </ul>
+
+      <h2>3. Third-Party Services</h2>
+      <p><strong>Google AdMob:</strong> We use Google AdMob to display advertisements in our app. AdMob may collect device identifiers and usage data for ad personalization. You can opt out of personalized ads through your device settings:</p>
+      <ul>
+        <li><strong>Android:</strong> Settings → Google → Ads → Opt out of Ads Personalization</li>
+      </ul>
+      <p>For more information, please review Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
+
+      <h2>4. Data Storage</h2>
+      <p>Your game progress and preferences (sound, animations) are stored <strong>locally on your device</strong> using browser local storage. We do not transmit or store this data on any external server. Uninstalling the app will remove all locally stored data.</p>
+
+      <h2>5. Children's Privacy</h2>
+      <p>Our app is suitable for all ages. We do not knowingly collect personal information from children under 13. If you believe a child has provided us with personal information, please contact us and we will take steps to remove such data.</p>
+
+      <h2>6. Data Security</h2>
+      <p>We implement reasonable security measures to protect your data. However, no method of electronic storage is 100% secure, and we cannot guarantee absolute security.</p>
+
+      <h2>7. Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. Any changes will be posted on this page with an updated "Last updated" date. Your continued use of the app after changes constitutes acceptance of the updated policy.</p>
+
+      <h2>8. Contact Us</h2>
+      <p>If you have any questions about this Privacy Policy or our data practices, please contact us at:</p>
+      <p><strong>Email:</strong> <a href="mailto:support@cktechhub.com">support@cktechhub.com</a></p>
+    </div>
+
+    <div class="footer">
+      &copy; 2026 Tube Master Puzzle &middot; <a href="#home">Home</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
+    </div>
+  </div>
+
+  <script>
+    // Simple hash-based router
+    function route() {
+      const hash = window.location.hash || '#home';
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      const pageId = hash.replace('#', '');
+      const page = document.getElementById(pageId);
+      if (page) {
+        page.classList.add('active');
+      } else {
+        document.getElementById('home').classList.add('active');
+      }
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener('hashchange', route);
+    window.addEventListener('DOMContentLoaded', route);
+  </script>
+
+</body>
+</html>

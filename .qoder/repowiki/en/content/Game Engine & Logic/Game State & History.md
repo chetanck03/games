@@ -10,11 +10,12 @@
 
 ## Update Summary
 **Changes Made**
-- Updated scoring system documentation to reflect new `computeLevelScore()` function
+- Updated scoring system documentation to reflect new `computeLevelScore()` function returning 10 points per level
 - Removed references to complex time-based scoring calculations
 - Added documentation for simplified state-based scoring mechanism
 - Updated score calculation algorithm section with new implementation
 - Revised progress persistence section to match new scoring approach
+- Updated troubleshooting guide to reflect new scoring system
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -262,11 +263,11 @@ Stop(["stopTimer()"]) --> Clear["Clear interval and reset"]
 - [index.html:820-835](file://app/src/main/assets/index.html#L820-L835)
 
 ### Score Calculation Algorithm
-**Updated** The scoring system has been simplified to use a state-based approach:
+**Updated** The scoring system has been completely overhauled to use a simple fixed-point approach:
 
-- computeLevelScore() returns a fixed 10 points for each level completion
+- computeLevelScore() returns a constant 10 points for each level completion
 - computeScore() adds the level score to the current accumulated score
-- No more time-based penalties or move-based deductions
+- No more complex time-based penalties or move-based deductions
 - Score is persisted across levels and sessions
 
 ```mermaid
@@ -369,7 +370,7 @@ Act -.JS Bridge.-> HTML
 - Rendering throttling: tube rendering is debounced on window resize to avoid excessive reflows.
 - Timer precision: 1-second intervals minimize CPU overhead while keeping time display smooth.
 - Animations: animations are toggled via settings to reduce GPU/CPU load on lower-end devices.
-- Simplified scoring: computeLevelScore() is constant-time and lightweight compared to previous time-based calculations.
+- Simplified scoring: computeLevelScore() is constant-time and lightweight compared to previous complex calculations.
 
 ## Troubleshooting Guide
 Common issues and mitigations:
@@ -389,6 +390,7 @@ Common issues and mitigations:
 - Scoring system issues
   - computeLevelScore() always returns 10 points; verify score accumulation logic.
   - Ensure localStorage persistence works correctly for score updates.
+  - **Updated**: The scoring system is now completely simplified with no complex calculations or penalties.
 
 **Section sources**
 - [index.html:757-763](file://app/src/main/assets/index.html#L757-L763)
