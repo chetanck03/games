@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
 
         // Test AdMob IDs — Replace with your production IDs before release
-        private const val BANNER_AD_UNIT_ID = "ca-app-pub-3940256099942544/6300978111"
-        private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-3940256099942544/1033173712"
+        private const val BANNER_AD_UNIT_ID = "ca-app-pub-9236732680797508/4746287184"
+        private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-9236732680797508/6188503005"
 
         // Show interstitial every N level completions
         private const val INTERSTITIAL_FREQUENCY = 2
@@ -100,6 +100,7 @@ class MainActivity : AppCompatActivity() {
                 LinearLayout.LayoutParams.MATCH_PARENT
             )
             setBackgroundColor("#000000".toColorInt())
+            fitsSystemWindows = true
         }
 
         // WebView (fills remaining space above the ad)
@@ -268,11 +269,10 @@ class MainActivity : AppCompatActivity() {
             setAdSize(AdSize.BANNER)
             id = View.generateViewId()
             layoutParams = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.WRAP_CONTENT
-            ).apply {
-                gravity = Gravity.CENTER_HORIZONTAL
-            }
+            )
+            setBackgroundColor("#111111".toColorInt())
             loadAd(AdRequest.Builder().build())
         }
     }
@@ -306,7 +306,7 @@ class MainActivity : AppCompatActivity() {
             orientation = LinearLayout.VERTICAL
             gravity = Gravity.CENTER
             setPadding(48, 0, 48, 0)
-            setBackgroundColor("#1a1a2e".toColorInt())
+            setBackgroundColor("#000000".toColorInt())
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT
@@ -349,7 +349,7 @@ class MainActivity : AppCompatActivity() {
         layout.addView(Button(this).apply {
             text = getString(R.string.retry_button)
             setTextColor("#ffffff".toColorInt())
-            setBackgroundColor("#7b2ff7".toColorInt())
+            setBackgroundColor("#F59E0B".toColorInt())
             setPadding(64, 28, 64, 28)
             textSize = 16f
             typeface = Typeface.DEFAULT_BOLD

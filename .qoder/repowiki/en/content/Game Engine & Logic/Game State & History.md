@@ -8,6 +8,14 @@
 - [strings.xml](file://app/src/main/res/values/strings.xml)
 </cite>
 
+## Update Summary
+**Changes Made**
+- Updated scoring system documentation to reflect new `computeLevelScore()` function
+- Removed references to complex time-based scoring calculations
+- Added documentation for simplified state-based scoring mechanism
+- Updated score calculation algorithm section with new implementation
+- Revised progress persistence section to match new scoring approach
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -25,13 +33,13 @@ This document explains the game state management and history system for a Ball S
 - The state object structure and how it tracks game progress
 - Move tracking and history buffer management
 - Undo functionality using saveHistory() and undoMove()
-- Timer and score computation
+- Timer and simplified score computation using computeLevelScore()
 - Progress persistence using localStorage
 - Integration with the UI rendering system and user interactions
 - Best practices for preventing state corruption, managing memory for large histories, and optimizing performance
 
 ## Project Structure
-The game is implemented as a single-page HTML application packaged in the Android app’s assets. The Android activity hosts a WebView that loads the game page and bridges JavaScript events to native Android for analytics and ads.
+The game is implemented as a single-page HTML application packaged in the Android app's assets. The Android activity hosts a WebView that loads the game page and bridges JavaScript events to native Android for analytics and ads.
 
 ```mermaid
 graph TB
@@ -70,7 +78,7 @@ Key responsibilities:
 - State object holds currentLevel, tubes, selectedTube, moves, score, startTime, timerInterval, history, initialTubes, levelColors, ballsPerColor, solved, and settings flags
 - saveHistory() serializes the current state snapshot into history
 - undoMove() restores the last state from history
-- Timer and computeScore() update UI stats
+- Timer and computeScore() update UI stats using simplified scoring
 - localStorage persists progress across sessions
 
 **Section sources**
@@ -254,35 +262,32 @@ Stop(["stopTimer()"]) --> Clear["Clear interval and reset"]
 - [index.html:820-835](file://app/src/main/assets/index.html#L820-L835)
 
 ### Score Calculation Algorithm
-- computeScore() calculates a score based on:
-  - Base points proportional to currentLevel
-  - Penalties for elapsed time and number of moves
-  - Accumulated score carried over from previous levels
-- The result is clamped to zero or above.
+**Updated** The scoring system has been simplified to use a state-based approach:
+
+- computeLevelScore() returns a fixed 10 points for each level completion
+- computeScore() adds the level score to the current accumulated score
+- No more time-based penalties or move-based deductions
+- Score is persisted across levels and sessions
 
 ```mermaid
 flowchart TD
-Start(["computeScore()"]) --> CheckStart{"startTime set?"}
-CheckStart --> |No| ReturnZero["Return 0"]
-CheckStart --> |Yes| Elapsed["elapsed = floor((now - startTime)/1000)"]
-Elapsed --> Base["base = (currentLevel+1)*1000"]
-Base --> TimePenalty["timePenalty = elapsed * 2"]
-TimePenalty --> MovePenalty["movePenalty = moves * 5"]
-MovePenalty --> ScoreCalc["score = max(0, base - timePenalty - movePenalty + score)"]
-ScoreCalc --> End(["Return score"])
+Start(["computeScore()"]) --> LevelScore["levelScore = computeLevelScore()"]
+LevelScore --> AddScore["score = state.score + levelScore"]
+AddScore --> ReturnScore["Return score (always >= state.score)"]
+ComputeLevel["computeLevelScore()"] --> FixedPoints["Return 10 points"]
 ```
 
 **Diagram sources**
-- [index.html:841-848](file://app/src/main/assets/index.html#L841-L848)
+- [index.html:866-872](file://app/src/main/assets/index.html#L866-L872)
 
 **Section sources**
-- [index.html:841-848](file://app/src/main/assets/index.html#L841-L848)
+- [index.html:866-872](file://app/src/main/assets/index.html#L866-L872)
 
 ### Progress Persistence Mechanisms
 - Progress persistence uses localStorage:
   - bsp_level: current level index
-  - bsp_score: accumulated score across levels
-- On continue, the game adds the current level’s score to the stored score and advances to the next level or restarts at level 0 when reaching the end.
+  - bsp_score: accumulated score across levels (updated with 10 points per level)
+- On continue, the game adds 10 points (computeLevelScore()) to the stored score and advances to the next level or restarts at level 0 when reaching the end.
 - Settings toggles (sound, animations, particles) are persisted under bsp_sound, bsp_anim, bsp_particle.
 
 ```mermaid
@@ -291,7 +296,7 @@ participant UI as "UI"
 participant JS as "index.html"
 participant LS as "localStorage"
 UI->>JS : "continueBtn click"
-JS->>LS : "setItem('bsp_score', stored + computeScore())"
+JS->>LS : "setItem('bsp_score', stored + computeLevelScore())"
 alt reached last level
 JS->>LS : "setItem('bsp_level','0')"
 JS->>JS : "state.score = 0"
@@ -364,8 +369,7 @@ Act -.JS Bridge.-> HTML
 - Rendering throttling: tube rendering is debounced on window resize to avoid excessive reflows.
 - Timer precision: 1-second intervals minimize CPU overhead while keeping time display smooth.
 - Animations: animations are toggled via settings to reduce GPU/CPU load on lower-end devices.
-
-[No sources needed since this section provides general guidance]
+- Simplified scoring: computeLevelScore() is constant-time and lightweight compared to previous time-based calculations.
 
 ## Troubleshooting Guide
 Common issues and mitigations:
@@ -382,6 +386,9 @@ Common issues and mitigations:
 - Persistence pitfalls
   - Validate localStorage values before parsing; fallback to defaults if missing.
   - Reset score to zero when restarting from the beginning.
+- Scoring system issues
+  - computeLevelScore() always returns 10 points; verify score accumulation logic.
+  - Ensure localStorage persistence works correctly for score updates.
 
 **Section sources**
 - [index.html:757-763](file://app/src/main/assets/index.html#L757-L763)
@@ -390,9 +397,7 @@ Common issues and mitigations:
 - [index.html:1005-1014](file://app/src/main/assets/index.html#L1005-L1014)
 
 ## Conclusion
-The game employs a clean separation between Android hosting and JavaScript-driven gameplay. The state object, combined with a bounded history buffer, provides robust undo capabilities. The timer and score system offer meaningful feedback, while localStorage ensures progress persistence across sessions. Following the outlined patterns and best practices helps maintain reliability and performance across diverse devices.
-
-[No sources needed since this section summarizes without analyzing specific files]
+The game employs a clean separation between Android hosting and JavaScript-driven gameplay. The state object, combined with a bounded history buffer, provides robust undo capabilities. The simplified scoring system offers predictable point accumulation with minimal computational overhead, while localStorage ensures progress persistence across sessions. Following the outlined patterns and best practices helps maintain reliability and performance across diverse devices.
 
 ## Appendices
 
@@ -401,6 +406,6 @@ The game employs a clean separation between Android hosting and JavaScript-drive
 - Save history operation: [index.html:757-763](file://app/src/main/assets/index.html#L757-L763)
 - Undo operation: [index.html:765-779](file://app/src/main/assets/index.html#L765-L779)
 - Timer functions: [index.html:820-835](file://app/src/main/assets/index.html#L820-L835)
-- Score computation: [index.html:841-848](file://app/src/main/assets/index.html#L841-L848)
+- Score calculation: [index.html:866-872](file://app/src/main/assets/index.html#L866-L872)
 - Progress persistence: [index.html:1005-1014](file://app/src/main/assets/index.html#L1005-L1014)
 - WebView setup and JS bridge: [MainActivity.kt:165-262](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L165-L262), [MainActivity.kt:209-228](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L209-L228), [MainActivity.kt:429-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L429-L439)
