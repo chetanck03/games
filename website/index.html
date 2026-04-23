@@ -9,26 +9,19 @@
     body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#000;color:#fff;min-height:100vh;}
     a{color:#F59E0B;text-decoration:none;}
     a:hover{text-decoration:underline;}
-
-    /* Nav */
     nav{position:fixed;top:0;left:0;right:0;z-index:50;background:rgba(0,0,0,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.08);padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;}
     .nav-brand{font-size:1.2rem;font-weight:800;background:linear-gradient(135deg,#8B5CF6,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
     .nav-links{display:flex;gap:24px;}
-    .nav-links a{color:rgba(255,255,255,0.7);font-size:0.9rem;font-weight:500;transition:color 0.2s;}
+    .nav-links a{color:rgba(255,255,255,0.7);font-size:0.9rem;font-weight:500;transition:color 0.2s;cursor:pointer;}
     .nav-links a:hover{color:#fff;text-decoration:none;}
-
-    /* Page container */
     .page{display:none;padding-top:60px;}
     .page.active{display:block;}
-
-    /* Home */
     .hero{min-height:calc(100vh - 60px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 24px;}
     .hero-icon{font-size:4rem;margin-bottom:16px;}
     .hero-title{font-size:3rem;font-weight:900;background:linear-gradient(135deg,#8B5CF6,#F59E0B);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
     .hero-subtitle{font-size:1.1rem;color:rgba(255,255,255,0.6);max-width:500px;margin-bottom:32px;line-height:1.6;}
     .btn-gold{display:inline-block;padding:14px 36px;background:linear-gradient(135deg,#8B5CF6,#F59E0B);color:#fff;font-weight:700;border-radius:14px;font-size:1rem;text-decoration:none;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 20px rgba(139,92,246,0.4),0 0 30px rgba(245,158,11,0.15);}
     .btn-gold:hover{transform:scale(1.04);text-decoration:none;box-shadow:0 6px 28px rgba(139,92,246,0.5),0 0 40px rgba(245,158,11,0.2);}
-
     .features{padding:80px 24px;max-width:800px;margin:0 auto;}
     .features h2{font-size:1.8rem;font-weight:800;text-align:center;margin-bottom:40px;}
     .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px;}
@@ -36,11 +29,6 @@
     .feature-card .icon{font-size:2rem;margin-bottom:12px;}
     .feature-card h3{font-size:1.05rem;font-weight:700;margin-bottom:6px;}
     .feature-card p{font-size:0.88rem;color:rgba(255,255,255,0.55);line-height:1.5;}
-
-    .footer{padding:40px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);font-size:0.85rem;}
-    .footer a{color:rgba(255,255,255,0.5);}
-
-    /* Privacy */
     .privacy-content{max-width:720px;margin:0 auto;padding:60px 24px 80px;}
     .privacy-content h1{font-size:2.2rem;font-weight:800;margin-bottom:8px;}
     .privacy-content .updated{color:rgba(255,255,255,0.4);font-size:0.9rem;margin-bottom:32px;}
@@ -48,7 +36,8 @@
     .privacy-content p,.privacy-content ul{font-size:0.95rem;color:rgba(255,255,255,0.75);line-height:1.8;margin-bottom:12px;}
     .privacy-content ul{padding-left:20px;}
     .privacy-content li{margin-bottom:6px;}
-
+    .footer{padding:40px 24px;text-align:center;border-top:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.35);font-size:0.85rem;}
+    .footer a{color:rgba(255,255,255,0.5);}
     @media(max-width:600px){
       .hero-title{font-size:2rem;}
       .hero-subtitle{font-size:0.95rem;}
@@ -59,12 +48,11 @@
 </head>
 <body>
 
-  <!-- Nav -->
   <nav>
-    <a href="#home" class="nav-brand">Tube Master Puzzle</a>
+    <a href="/" class="nav-brand" onclick="go('home');return false;">Tube Master Puzzle</a>
     <div class="nav-links">
-      <a href="#home">Home</a>
-      <a href="#privacy">Privacy Policy</a>
+      <a onclick="go('home');return false;">Home</a>
+      <a onclick="go('privacy');return false;">Privacy Policy</a>
     </div>
   </nav>
 
@@ -99,7 +87,7 @@
     </section>
 
     <div class="footer">
-      &copy; 2026 Tube Master Puzzle &middot; <a href="#privacy">Privacy Policy</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
+      &copy; 2026 Tube Master Puzzle &middot; <a href="javascript:go('privacy')">Privacy Policy</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
     </div>
   </div>
 
@@ -131,7 +119,7 @@
       <h2>3. Third-Party Services</h2>
       <p><strong>Google AdMob:</strong> We use Google AdMob to display advertisements in our app. AdMob may collect device identifiers and usage data for ad personalization. You can opt out of personalized ads through your device settings:</p>
       <ul>
-        <li><strong>Android:</strong> Settings → Google → Ads → Opt out of Ads Personalization</li>
+        <li><strong>Android:</strong> Settings &rarr; Google &rarr; Ads &rarr; Opt out of Ads Personalization</li>
       </ul>
       <p>For more information, please review Google's privacy policy: <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">https://policies.google.com/privacy</a></p>
 
@@ -153,26 +141,31 @@
     </div>
 
     <div class="footer">
-      &copy; 2026 Tube Master Puzzle &middot; <a href="#home">Home</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
+      &copy; 2026 Tube Master Puzzle &middot; <a href="javascript:go('home')">Home</a> &middot; <a href="mailto:support@cktechhub.com">Contact</a>
     </div>
   </div>
 
   <script>
-    // Simple hash-based router
-    function route() {
-      const hash = window.location.hash || '#home';
-      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      const pageId = hash.replace('#', '');
-      const page = document.getElementById(pageId);
-      if (page) {
-        page.classList.add('active');
-      } else {
-        document.getElementById('home').classList.add('active');
-      }
-      window.scrollTo(0, 0);
+    function go(page){
+      history.pushState(null,'','/'+page);
+      show(page);
     }
-    window.addEventListener('hashchange', route);
-    window.addEventListener('DOMContentLoaded', route);
+    function show(page){
+      document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+      var el=document.getElementById(page)||document.getElementById('home');
+      el.classList.add('active');
+      document.title=page==='privacy'?'Privacy Policy - Tube Master Puzzle':'Tube Master Puzzle';
+      window.scrollTo(0,0);
+    }
+    window.addEventListener('popstate',function(){
+      var path=window.location.pathname.replace('/','');
+      show(path||'home');
+    });
+    // Load correct page on first visit
+    (function(){
+      var path=window.location.pathname.replace('/','');
+      if(path) show(path);
+    })();
   </script>
 
 </body>
