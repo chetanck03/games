@@ -7,6 +7,14 @@
 - [AndroidManifest.xml](file://app/src/main/AndroidManifest.xml)
 </cite>
 
+## Update Summary
+**Changes Made**
+- Updated Level Configuration section to reflect new explicit empty tube management
+- Enhanced Level Generation Algorithm section with scramble-based approach
+- Added Difficulty Scaling section explaining level progression mechanics
+- Updated Tube Management section with explicit empty tube counting
+- Revised Level Progression Logic to include scramble-based difficulty scaling
+
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Project Structure](#project-structure)
@@ -19,7 +27,7 @@
 9. [Conclusion](#conclusion)
 
 ## Introduction
-This document explains the level system and configuration implementation for the Ball Sort Puzzle game. It focuses on the 15 progressive difficulty levels defined in the LEVEL_CONFIG array, detailing tube count calculations, color distribution algorithms, ball capacity management, and level generation/validation logic. It also covers how levels are loaded and validated, how game state integrates with level progression, and practical guidance for ensuring solvability and fair color distribution.
+This document explains the level system and configuration implementation for the Ball Sort Puzzle game. It focuses on the 15 progressive difficulty levels defined in the LEVEL_CONFIG array, detailing tube count calculations, color distribution algorithms, ball capacity management, and level generation/validation logic. The system now features an enhanced scramble-based generation algorithm with explicit empty tube management and progressive difficulty scaling based on level progression.
 
 ## Project Structure
 The game is a hybrid Android app that hosts a self-contained HTML/JS/CSS game inside a WebView. The level system and gameplay logic live in the HTML file, while the Android host manages WebView lifecycle, permissions, and AdMob integration.
@@ -31,7 +39,7 @@ A_MainActivity["MainActivity.kt"]
 A_Manifest["AndroidManifest.xml"]
 end
 subgraph "Game Content"
-H_Index["index.html<br/>- LEVEL_CONFIG<br/>- Level Generation<br/>- Validation<br/>- Rendering"]
+H_Index["index.html<br/>- LEVEL_CONFIG<br/>- Scramble-Based Generation<br/>- Validation<br/>- Rendering"]
 end
 A_MainActivity --> H_Index
 A_Manifest --> A_MainActivity
@@ -48,25 +56,25 @@ A_Manifest --> A_MainActivity
 - [index.html:321-543](file://app/src/main/assets/index.html#L321-L543)
 
 ## Core Components
-- LEVEL_CONFIG: Defines 15 levels with explicit tube counts, color counts, and balls per color. These parameters drive tube capacity and total ball counts.
-- generateLevel(levelIdx): Builds a level from LEVEL_CONFIG by computing tube capacity, ensuring enough empty tubes, selecting colors, building a shuffled ball pool, filling tubes, and guaranteeing unsolved state.
+- LEVEL_CONFIG: Defines 15 levels with explicit tube counts, color counts, balls per color, and empty tube management. These parameters drive tube capacity, total ball counts, and difficulty progression.
+- generateLevel(levelIdx): Builds a level from LEVEL_CONFIG by computing tube capacity, ensuring explicit empty tubes, scrambling from solved state, and guaranteeing unsolved state.
 - isSolved(tubes, tubeCapacity, colors): Validates whether all non-empty tubes are full and monochromatic.
 - loadLevel(idx): Loads a level into state, initializes timers, and renders the game board.
 - Game state and rendering: Tracks current level, tubes, selected tube, moves, score, and UI updates.
 
 Key implementation references:
-- Level configuration and constants: [LEVEL_CONFIG:325-341](file://app/src/main/assets/index.html#L325-L341)
-- Level generation and validation: [generateLevel:482-531](file://app/src/main/assets/index.html#L482-L531), [isSolved:533-543](file://app/src/main/assets/index.html#L533-L543)
-- Level loading and state: [loadLevel:908-927](file://app/src/main/assets/index.html#L908-L927)
+- Level configuration and constants: [LEVEL_CONFIG:377-393](file://app/src/main/assets/index.html#L377-L393)
+- Level generation and validation: [generateLevel:613-690](file://app/src/main/assets/index.html#L613-L690), [isSolved:692-702](file://app/src/main/assets/index.html#L692-L702)
+- Level loading and state: [loadLevel:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 
 **Section sources**
-- [index.html:325-341](file://app/src/main/assets/index.html#L325-L341)
-- [index.html:482-531](file://app/src/main/assets/index.html#L482-L531)
-- [index.html:533-543](file://app/src/main/assets/index.html#L533-L543)
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
+- [index.html:377-393](file://app/src/main/assets/index.html#L377-L393)
+- [index.html:613-690](file://app/src/main/assets/index.html#L613-L690)
+- [index.html:692-702](file://app/src/main/assets/index.html#L692-L702)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 
 ## Architecture Overview
-The level system is embedded in the HTML/JS game logic. The Android MainActivity loads the game page into a WebView and bridges JavaScript events to Android (e.g., level completion triggers interstitial ads). The game’s own logic handles level progression, generation, and validation.
+The level system is embedded in the HTML/JS game logic. The Android MainActivity loads the game page into a WebView and bridges JavaScript events to Android (e.g., level completion triggers interstitial ads). The game's own logic handles level progression, generation, and validation with enhanced scramble-based algorithms.
 
 ```mermaid
 sequenceDiagram
@@ -96,139 +104,186 @@ end
 ```
 
 **Diagram sources**
-- [index.html:929-935](file://app/src/main/assets/index.html#L929-L935)
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
-- [index.html:694-755](file://app/src/main/assets/index.html#L694-L755)
-- [index.html:853-881](file://app/src/main/assets/index.html#L853-L881)
+- [index.html:1187-1208](file://app/src/main/assets/index.html#L1187-L1208)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
+- [index.html:869-930](file://app/src/main/assets/index.html#L869-L930)
+- [index.html:1027-1061](file://app/src/main/assets/index.html#L1027-L1061)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 **Section sources**
-- [index.html:929-935](file://app/src/main/assets/index.html#L929-L935)
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
-- [index.html:694-755](file://app/src/main/assets/index.html#L694-L755)
-- [index.html:853-881](file://app/src/main/assets/index.html#L853-L881)
+- [index.html:1187-1208](file://app/src/main/assets/index.html#L1187-L1208)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
+- [index.html:869-930](file://app/src/main/assets/index.html#L869-L930)
+- [index.html:1027-1061](file://app/src/main/assets/index.html#L1027-L1061)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 ## Detailed Component Analysis
 
 ### Level Configuration: LEVEL_CONFIG
 - Purpose: Define 15 levels with explicit parameters:
-  - tubes: Initial tube count for the level
   - colors: Number of distinct colors used
   - ballsPerColor: Tube capacity (and balls per color)
+  - emptyTubes: Explicit count of empty tubes for each level
 - How it drives difficulty:
-  - Tubes increase progressively (3–8)
   - Colors increase progressively (2–8)
-  - Balls per color increases progressively (3–8)
+  - Balls per color increases progressively (3–5)
+  - Empty tubes remain constant at 2 for all levels
+  - Explicit empty tube management ensures consistent difficulty scaling
 - Notes:
-  - Some entries indicate “empty” adjustments in comments (e.g., “+1 empty”), which are handled programmatically during generation.
+  - Levels 4, 9, and 12 include "harder scramble" comments indicating increased difficulty through more complex scrambling
 
 Implementation references:
-- [LEVEL_CONFIG array:325-341](file://app/src/main/assets/index.html#L325-L341)
+- [LEVEL_CONFIG array:377-393](file://app/src/main/assets/index.html#L377-L393)
 
 **Section sources**
-- [index.html:325-341](file://app/src/main/assets/index.html#L325-L341)
+- [index.html:377-393](file://app/src/main/assets/index.html#L377-L393)
 
-### Tube Count Calculations and Capacity Management
-- Tube capacity: Derived from ballsPerColor for each level.
-- Minimum tube count: Ensures enough tubes to hold all balls plus at least 1–2 extra empty tubes.
-- Occupied vs. total tubes:
-  - occupiedTubes = ceil(totalBalls / tubeCapacity)
-  - tubeCount = max(tubeCountFromConfig, occupiedTubes + 1)
+### Enhanced Level Generation Algorithm with Scramble-Based Approach
+- Scramble-based generation:
+  - Start from a solved state with each color in its own tube
+  - Generate explicit empty tubes based on configuration
+  - Apply random valid moves from the solved state to create scrambled puzzles
+  - Scale scramble complexity based on level progression
+- Scramble complexity scaling:
+  - Base scramble moves: 50 + (levelIdx × 30)
+  - Higher levels generate more random moves for increased difficulty
+  - Ensures puzzle is solvable while providing appropriate challenge
+- Safety mechanisms:
+  - Regenerate if puzzle becomes solved prematurely
+  - Prevent completion of tubes during scrambling phase
 
 Implementation references:
-- [Tube capacity and count calculation:482-494](file://app/src/main/assets/index.html#L482-L494)
+- [Scramble-based generation:613-690](file://app/src/main/assets/index.html#L613-L690)
+
+**Updated** Enhanced with explicit empty tube management and progressive scramble complexity
 
 **Section sources**
-- [index.html:482-494](file://app/src/main/assets/index.html#L482-L494)
+- [index.html:613-690](file://app/src/main/assets/index.html#L613-L690)
+
+### Tube Management with Explicit Empty Tube Counts
+- Tube capacity: Derived from ballsPerColor for each level
+- Tube count calculation: tubeCount = colors + emptyTubes (explicit configuration)
+- Empty tube management:
+  - Explicit empty tube count per level (constant 2 for all levels)
+  - Ensures consistent difficulty progression
+  - Provides predictable puzzle structure
+- Tube distribution:
+  - Colors are placed in separate tubes initially
+  - Empty tubes are added to meet configured tubeCount
+  - Scrambling occurs across all tubes including empty ones
+
+Implementation references:
+- [Tube management:613-641](file://app/src/main/assets/index.html#L613-L641)
+
+**Updated** Now includes explicit empty tube management with configurable counts
+
+**Section sources**
+- [index.html:613-641](file://app/src/main/assets/index.html#L613-L641)
 
 ### Color Distribution Algorithm
 - Select colors:
-  - Randomly pick colors from BALL_COLORS equal to the level’s colors.
+  - Randomly pick colors from BALL_COLORS equal to the level's colors
+  - Use harmonized order with level-based offset for variety
+  - Store both color objects and indices for theme switching
 - Fairness:
-  - Each color appears exactly ballsPerColor times.
-  - The ball pool is shuffled to distribute colors randomly across tubes.
+  - Each color appears exactly ballsPerColor times
+  - Ball pool is created from solved state and then scrambled
+  - Theme-based color selection maintains visual consistency
 
 Implementation references:
-- [Color selection and ball pool creation:495-505](file://app/src/main/assets/index.html#L495-L505)
+- [Color selection:619-631](file://app/src/main/assets/index.html#L619-L631)
 
 **Section sources**
-- [index.html:495-505](file://app/src/main/assets/index.html#L495-L505)
+- [index.html:619-631](file://app/src/main/assets/index.html#L619-L631)
 
 ### Ball Pool Generation and Tube Filling
 - Ball pool construction:
-  - Repeat each color index ballsPerColor times.
-  - Shuffle the pool.
+  - Create solved state with ballsPerColor balls of each color
+  - Explicitly add empty tubes based on configuration
+  - Scramble by applying random valid moves from solved state
 - Tube filling:
-  - Fill tubes sequentially up to tubeCapacity.
-  - Distribute remaining balls into existing tubes (up to capacity).
-  - Add empty tubes to meet tubeCount.
+  - Start with solved state (colors in separate tubes)
+  - Apply scramble moves to distribute balls randomly
+  - Maintain tubeCapacity constraints throughout process
+  - Ensure final state meets level requirements
 
 Implementation references:
-- [Ball pool and tube filling:500-524](file://app/src/main/assets/index.html#L500-L524)
+- [Ball pool and tube filling:633-672](file://app/src/main/assets/index.html#L633-L672)
 
 **Section sources**
-- [index.html:500-524](file://app/src/main/assets/index.html#L500-L524)
+- [index.html:633-672](file://app/src/main/assets/index.html#L633-L672)
 
 ### Solvability Check and Validation Mechanisms
 - isSolved():
-  - Skips empty tubes.
-  - Requires all non-empty tubes to be full (length equals tubeCapacity).
-  - Requires each non-empty tube to be monochromatic.
-  - Requires exactly as many solved colors as the level’s colors.
+  - Skips empty tubes
+  - Requires all non-empty tubes to be full (length equals tubeCapacity)
+  - Requires each non-empty tube to be monochromatic
+  - Requires exactly as many solved colors as the level's colors
 - Safety:
-  - If generated level is already solved, regenerate the level to ensure solvability.
+  - Regenerate level if already solved after scrambling
+  - Prevent completion of tubes during scrambling phase
+  - Ensure puzzle remains solvable throughout generation
 
 Implementation references:
-- [isSolved validation:533-543](file://app/src/main/assets/index.html#L533-L543)
-- [Safety guard against pre-solved levels:525-528](file://app/src/main/assets/index.html#L525-L528)
+- [isSolved validation:692-702](file://app/src/main/assets/index.html#L692-L702)
+- [Safety guards:674-687](file://app/src/main/assets/index.html#L674-L687)
 
 **Section sources**
-- [index.html:533-543](file://app/src/main/assets/index.html#L533-L543)
-- [index.html:525-528](file://app/src/main/assets/index.html#L525-L528)
+- [index.html:692-702](file://app/src/main/assets/index.html#L692-L702)
+- [index.html:674-687](file://app/src/main/assets/index.html#L674-L687)
 
 ### Level Progression Logic and Game State Integration
 - loadLevel(idx):
-  - Resets state (current level, moves, history, selected tube, solved flag).
-  - Generates a new level and stores initial state for restarts.
-  - Starts the timer and updates UI.
+  - Resets state (current level, moves, history, selected tube, solved flag)
+  - Generates new level with scramble-based algorithm
+  - Stores initial state for restart functionality
+  - Starts timer and updates UI
 - Level progression:
-  - After completing a level, the player can continue to the next level or replay.
-  - Progress is persisted in localStorage (level index and score).
+  - Progress tracked via localStorage (level index and score)
+  - Automatic progression to next level after completion
+  - Reset to level 0 after completing final level
+  - Score accumulation with level completion bonuses
 
 Implementation references:
-- [loadLevel and state reset:908-927](file://app/src/main/assets/index.html#L908-L927)
+- [loadLevel and state reset:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 
 **Section sources**
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 
 ### Rendering and Move Validation
 - Rendering:
-  - Computes tube dimensions based on screen size and tube count.
-  - Renders balls bottom-to-top and applies visual states (selected, valid target, complete).
+  - Computes tube dimensions based on screen size and tube count
+  - Renders balls bottom-to-top with visual effects
+  - Applies theme styling and animations
 - Move validation:
-  - isValidTarget(ti): Checks if a tube can receive the selected ball.
-  - canMove(from, to): Enforces capacity, emptiness, and color match rules.
+  - isValidTarget(ti): Checks if tube can receive selected ball
+  - canMove(from, to): Enforces capacity, emptiness, and color match rules
+  - Supports undo functionality with history tracking
 
 Implementation references:
-- [Rendering and dimensions:548-576](file://app/src/main/assets/index.html#L548-L576)
-- [Validation helpers:626-645](file://app/src/main/assets/index.html#L626-L645)
+- [Rendering and dimensions:707-799](file://app/src/main/assets/index.html#L707-L799)
+- [Validation helpers:807-820](file://app/src/main/assets/index.html#L807-L820)
 
 **Section sources**
-- [index.html:548-576](file://app/src/main/assets/index.html#L548-L576)
-- [index.html:626-645](file://app/src/main/assets/index.html#L626-L645)
+- [index.html:707-799](file://app/src/main/assets/index.html#L707-L799)
+- [index.html:807-820](file://app/src/main/assets/index.html#L807-L820)
 
 ### Android Bridge and Ads on Level Completion
 - JavaScript-to-Android bridge:
-  - The game injects a function that wraps showLevelComplete to notify Android.
-  - MainActivity receives onLevelComplete and increments a counter to trigger interstitial ads periodically.
+  - Game injects function to wrap showLevelComplete for Android notification
+  - MainActivity receives onLevelComplete and increments completion counter
+  - Interstitial ads shown based on configurable frequency
+- Ad frequency control:
+  - Default frequency: every 2 level completions
+  - Configurable via INTERSTITIAL_FREQUENCY constant
+  - Automatic ad pre-loading for seamless experience
 
 Implementation references:
-- [JS bridge injection:214-228](file://app/src/main/assets/index.html#L214-L228)
+- [JS bridge injection:215-229](file://app/src/main/assets/index.html#L215-L229)
 - [AdBridge.onLevelComplete:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 **Section sources**
-- [index.html:214-228](file://app/src/main/assets/index.html#L214-L228)
+- [index.html:215-229](file://app/src/main/assets/index.html#L215-L229)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 ## Dependency Analysis
@@ -253,64 +308,68 @@ JS --> |calls| Bridge
 ```
 
 **Diagram sources**
-- [index.html:325-356](file://app/src/main/assets/index.html#L325-L356)
-- [index.html:482-531](file://app/src/main/assets/index.html#L482-L531)
-- [index.html:533-543](file://app/src/main/assets/index.html#L533-L543)
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
+- [index.html:377-485](file://app/src/main/assets/index.html#L377-L485)
+- [index.html:613-690](file://app/src/main/assets/index.html#L613-L690)
+- [index.html:692-702](file://app/src/main/assets/index.html#L692-L702)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 - [MainActivity.kt:165-263](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L165-L263)
 
 **Section sources**
-- [index.html:325-356](file://app/src/main/assets/index.html#L325-L356)
-- [index.html:482-531](file://app/src/main/assets/index.html#L482-L531)
-- [index.html:533-543](file://app/src/main/assets/index.html#L533-L543)
-- [index.html:908-927](file://app/src/main/assets/index.html#L908-L927)
+- [index.html:377-485](file://app/src/main/assets/index.html#L377-L485)
+- [index.html:613-690](file://app/src/main/assets/index.html#L613-L690)
+- [index.html:692-702](file://app/src/main/assets/index.html#L692-L702)
+- [index.html:1089-1108](file://app/src/main/assets/index.html#L1089-L1108)
 - [MainActivity.kt:165-263](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L165-L263)
 
 ## Performance Considerations
 - Level generation:
-  - Shuffle operations are O(n) per array.
-  - Tube filling loops are O(totalBalls).
-  - isSolved scans all tubes once; complexity is O(totalBalls).
+  - Scramble-based algorithm: O(scrambleMoves × tubes) complexity
+  - Base scramble moves: 50 + (levelIdx × 30) per level
+  - Tube filling loops: O(totalBalls) with explicit empty tube management
+  - isSolved scans all tubes once; complexity is O(totalBalls)
 - Rendering:
-  - getTubeDimensions computes sizes based on screen metrics and tube count; complexity is O(1) per call.
-  - renderTubes rebuilds DOM nodes each frame; keep re-render calls minimal.
+  - getTubeDimensions computes sizes based on screen metrics and tube count
+  - renderTubes rebuilds DOM nodes each frame; complexity O(tubes × ballsPerColor)
 - Recommendations:
-  - Avoid unnecessary re-renders by batching state updates.
-  - Cache computed dimensions when screen size is stable.
-  - Consider lazy initialization of expensive UI elements.
-
-[No sources needed since this section provides general guidance]
+  - Scramble complexity scales linearly with level progression
+  - Empty tube management reduces generation overhead
+  - Consider caching computed dimensions for performance optimization
 
 ## Troubleshooting Guide
 Common issues and resolutions:
 - Level appears already solved:
-  - Cause: Generated configuration yields a trivial solution.
-  - Fix: The generator regenerates the level if isSolved returns true.
-  - References: [Safety guard:525-528](file://app/src/main/assets/index.html#L525-L528)
+  - Cause: Generated configuration yields trivial solution
+  - Fix: Scramble-based algorithm prevents immediate solution
+  - References: [Safety guards:674-687](file://app/src/main/assets/index.html#L674-L687)
 - Empty tube requirement not met:
-  - Cause: tubeCountFromConfig does not account for required empty tubes.
-  - Fix: The generator ensures tubeCount ≥ occupiedTubes + 1.
-  - References: [Tube count adjustment:492-494](file://app/src/main/assets/index.html#L492-L494)
+  - Cause: Incorrect tubeCount calculation
+  - Fix: Explicit empty tube management ensures correct count
+  - References: [Tube management:617-641](file://app/src/main/assets/index.html#L617-L641)
 - Color distribution unfair:
-  - Cause: Misconfigured ballsPerColor or color count.
-  - Fix: Ensure ballsPerColor equals tubeCapacity and colors matches the intended palette.
-  - References: [Color selection:495-498](file://app/src/main/assets/index.html#L495-L498)
+  - Cause: Misconfigured ballsPerColor or color count
+  - Fix: Ensure ballsPerColor equals tubeCapacity and colors matches intended palette
+  - References: [Color selection:619-631](file://app/src/main/assets/index.html#L619-L631)
+- Scramble complexity issues:
+  - Cause: Insufficient scramble moves for higher levels
+  - Fix: Progressive difficulty scaling with base 50 + (levelIdx × 30) moves
+  - References: [Scramble calculation:645](file://app/src/main/assets/index.html#L645)
 - Move validation errors:
-  - Cause: Attempting to move to a full tube or mismatched color.
-  - Fix: Use canMove to validate; ensure tubeCapacity is consistent with ballsPerColor.
-  - References: [canMove:637-645](file://app/src/main/assets/index.html#L637-L645)
+  - Cause: Attempting to move to full tube or mismatched color
+  - Fix: Use canMove validation; ensure tubeCapacity consistent with ballsPerColor
+  - References: [canMove:812-820](file://app/src/main/assets/index.html#L812-L820)
 - Ads not triggering:
-  - Cause: Missing bridge injection or incorrect callback wrapping.
-  - Fix: Verify the injected script and AndroidBridge.onLevelComplete.
-  - References: [JS bridge injection:214-228](file://app/src/main/assets/index.html#L214-L228), [AdBridge:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
+  - Cause: Missing bridge injection or incorrect callback wrapping
+  - Fix: Verify injected script and AndroidBridge.onLevelComplete
+  - References: [JS bridge injection:215-229](file://app/src/main/assets/index.html#L215-L229), [AdBridge:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 **Section sources**
-- [index.html:525-528](file://app/src/main/assets/index.html#L525-L528)
-- [index.html:492-494](file://app/src/main/assets/index.html#L492-L494)
-- [index.html:495-498](file://app/src/main/assets/index.html#L495-L498)
-- [index.html:637-645](file://app/src/main/assets/index.html#L637-L645)
-- [index.html:214-228](file://app/src/main/assets/index.html#L214-L228)
+- [index.html:674-687](file://app/src/main/assets/index.html#L674-L687)
+- [index.html:617-641](file://app/src/main/assets/index.html#L617-L641)
+- [index.html:619-631](file://app/src/main/assets/index.html#L619-L631)
+- [index.html:645](file://app/src/main/assets/index.html#L645)
+- [index.html:812-820](file://app/src/main/assets/index.html#L812-L820)
+- [index.html:215-229](file://app/src/main/assets/index.html#L215-L229)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
 
 ## Conclusion
-The level system is a compact, deterministic engine driven by LEVEL_CONFIG. It calculates tube capacity and counts, constructs a balanced ball pool, fills tubes fairly, and guarantees solvability. The Android host integrates seamlessly with the game via a lightweight JavaScript bridge for analytics and monetization. This design offers a clear path for extending difficulty, adding new levels, and maintaining fairness and solvability.
+The level system is a sophisticated, scramble-based engine driven by LEVEL_CONFIG with explicit empty tube management. It calculates tube capacity and counts, constructs balanced ball pools, scrambles from solved states with progressive difficulty scaling, and guarantees solvability. The enhanced algorithm provides consistent difficulty progression through increased scramble complexity for higher levels while maintaining predictable tube management. The Android host integrates seamlessly with the game via a lightweight JavaScript bridge for analytics and monetization, offering a clear path for extending difficulty, adding new levels, and maintaining fairness and solvability.

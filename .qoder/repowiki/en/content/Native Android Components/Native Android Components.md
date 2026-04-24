@@ -13,16 +13,16 @@
 - [ic_launcher_background.xml](file://app/src/main/res/drawable/ic_launcher_background.xml)
 - [ic_launcher_foreground.xml](file://app/src/main/res/drawable/ic_launcher_foreground.xml)
 - [build.gradle.kts](file://app/build.gradle.kts)
+- [gradle.properties](file://gradle.properties)
 - [libs.versions.toml](file://gradle/libs.versions.toml)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Updated launcher configuration section to reflect new adaptive icon system
-- Added application branding documentation with 'Tube Master Puzzle' name
-- Enhanced system window fitting support documentation
-- Updated icon configuration examples and file structure
-- Added new adaptive icon files documentation
+- Updated build configuration section to reflect new release signing setup
+- Added production deployment documentation for code signing
+- Enhanced build security documentation with keystore management
+- Updated build configuration examples with signing configuration details
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -30,10 +30,11 @@
 3. [Core Components](#core-components)
 4. [Architecture Overview](#architecture-overview)
 5. [Detailed Component Analysis](#detailed-component-analysis)
-6. [Dependency Analysis](#dependency-analysis)
-7. [Performance Considerations](#performance-considerations)
-8. [Troubleshooting Guide](#troubleshooting-guide)
-9. [Conclusion](#conclusion)
+6. [Build Configuration and Deployment](#build-configuration-and-deployment)
+7. [Dependency Analysis](#dependency-analysis)
+8. [Performance Considerations](#performance-considerations)
+9. [Troubleshooting Guide](#troubleshooting-guide)
+10. [Conclusion](#conclusion)
 
 ## Introduction
 
@@ -41,7 +42,7 @@ This document provides comprehensive technical documentation for the native Andr
 
 The application follows a clean separation of concerns where the native Android layer handles system integration, lifecycle management, and advertising, while the game engine runs within a WebView containing HTML5/CSS3/JavaScript code. This architecture enables efficient cross-platform development while maintaining native performance characteristics.
 
-**Updated** Application branding has been refreshed with the new name 'Tube Master Puzzle' and includes enhanced adaptive icon system support for modern Android devices.
+**Updated** Application branding has been refreshed with the new name 'Tube Master Puzzle' and includes enhanced adaptive icon system support for modern Android devices. The project now features comprehensive release signing configuration for secure production deployments.
 
 ## Project Structure
 
@@ -73,6 +74,7 @@ end
 subgraph "Build Configuration"
 U[build.gradle.kts] --> V[Dependencies]
 W[gradle/libs.versions.toml] --> X[Versions]
+Y[gradle.properties] --> Z[Project Properties]
 end
 G --> T
 G --> F
@@ -460,6 +462,83 @@ The application maintains a cohesive brand identity through:
 - [strings.xml:2](file://app/src/main/res/values/strings.xml#L2)
 - [MainActivity.kt:102](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L102)
 
+## Build Configuration and Deployment
+
+**Updated** The application now includes comprehensive release signing configuration for secure production deployments:
+
+### Release Signing Configuration
+
+The project implements proper code signing setup for production builds:
+
+#### Keystore Management
+- **Keystore File**: `tube-master-release.jks` located in project root
+- **Store Password**: `tubemaster123` (stored in build configuration)
+- **Key Alias**: `tube-master`
+- **Key Password**: `tubemaster123`
+
+#### Build Type Configuration
+The release build type includes comprehensive signing configuration:
+
+```mermaid
+graph TB
+A[Build Types] --> B[Release]
+B --> C[Signing Config]
+C --> D[Store File Path]
+C --> E[Store Password]
+C --> F[Key Alias]
+C --> G[Key Password]
+D --> H[../tube-master-release.jks]
+E --> I[tubemaster123]
+F --> J[tube-master]
+G --> K[tubemaster123]
+```
+
+**Diagram sources**
+- [build.gradle.kts:19-36](file://app/build.gradle.kts#L19-L36)
+
+#### Security Features
+The signing configuration provides multiple security benefits:
+
+- **APK Integrity**: Ensures application authenticity and integrity
+- **Version Management**: Enables proper update mechanisms
+- **Developer Identification**: Links builds to authorized developers
+- **Production Security**: Required for Google Play Store deployment
+
+#### Build Process Integration
+The signing configuration integrates seamlessly with the build process:
+
+- **Automatic Signing**: Release builds automatically apply signing configuration
+- **Debug Builds**: Unaffected by release signing (debuggable builds)
+- **Build Variants**: Properly configured for different distribution channels
+- **Security Best Practices**: Follows Android security guidelines
+
+**Section sources**
+- [build.gradle.kts:19-36](file://app/build.gradle.kts#L19-L36)
+
+### Build Configuration Overview
+
+The application uses modern Gradle configuration with comprehensive dependency management:
+
+#### Project Properties
+The gradle.properties file contains essential project-wide settings:
+
+- **AndroidX Migration**: `android.useAndroidX=true` for modern Android libraries
+- **Kotlin Configuration**: `kotlin.code.style=official` for consistent code style
+- **R Class Optimization**: `android.nonTransitiveRClass=true` for reduced R class size
+- **Memory Management**: JVM arguments for optimal Gradle performance
+
+#### Version Catalog Integration
+The project utilizes version catalogs for dependency management:
+
+- **libs.versions.toml**: Centralized version management
+- **Plugin Aliases**: Consistent plugin versioning
+- **Library Versions**: Unified dependency version control
+- **Build Optimization**: Streamlined build configuration
+
+**Section sources**
+- [gradle.properties:17-23](file://gradle.properties#L17-L23)
+- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+
 ## Dependency Analysis
 
 The application's dependency structure follows modern Android development practices:
@@ -476,15 +555,18 @@ end
 subgraph "Build Configuration"
 G[build.gradle.kts] --> H[libs.versions.toml]
 H --> I[Version Catalog]
+J[gradle.properties] --> K[Project Properties]
 end
 subgraph "Target Platform"
-J[Android 10+ (API 29+)]
-K[Java 11 Compatible]
-L[Gradle 9.0+]
+L[Android 10+ (API 29+)]
+M[Java 11 Compatible]
+N[Gradle 9.0+]
+O[AndroidX Libraries]
 end
-A --> J
-B --> K
-F --> L
+A --> L
+B --> M
+F --> N
+G --> O
 ```
 
 **Diagram sources**
@@ -506,6 +588,11 @@ The application relies on several key external libraries:
 - **AppCompat**: Backward compatibility
 - **Activity KTX**: Enhanced activity lifecycle
 - **Lifecycle Runtime KTX**: Reactive lifecycle management
+
+#### Testing Dependencies
+- **JUnit**: Unit testing framework
+- **AndroidX JUnit**: Android-specific testing
+- **Espresso**: UI testing framework
 
 **Section sources**
 - [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
@@ -595,9 +682,19 @@ The application includes built-in performance monitoring:
 2. Verify ic_launcher.xml and ic_launcher_round.xml files
 3. Test on different device types and Android versions
 
+#### Release Signing Issues
+**Updated** **Issue**: Release builds fail with signing errors
+**Solution**: Verify keystore configuration and credentials
+**Diagnostic Steps**:
+1. Check keystore file path and existence
+2. Verify store password and key alias configuration
+3. Ensure keystore file has proper read permissions
+4. Validate signing configuration in build.gradle.kts
+
 **Section sources**
 - [MainActivity.kt:296-302](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L296-L302)
 - [MainActivity.kt:415-422](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L415-L422)
+- [build.gradle.kts:19-36](file://app/build.gradle.kts#L19-L36)
 
 ### Error Handling Strategies
 
@@ -626,8 +723,11 @@ Key achievements include:
 - **Monetization Strategy**: Integrated AdMob solution with strategic ad placement
 - **Performance Optimization**: Memory-efficient architecture with crash recovery mechanisms
 - **Modern Brand Identity**: Refreshed application branding with 'Tube Master Puzzle' and adaptive icon system
+- **Production Readiness**: Comprehensive release signing configuration for secure deployments
 - **User Experience**: Responsive design with graceful degradation and clear error handling
 
 The modular architecture allows for easy maintenance and future enhancements, while the clear separation between native components and web assets enables efficient cross-platform development. The enhanced adaptive icon system ensures proper presentation across diverse Android device ecosystems, and the system window fitting support provides optimal layout behavior on modern devices with varying screen configurations.
 
-This implementation serves as an excellent foundation for similar hybrid applications requiring native system integration alongside web-based content delivery, with particular strength in modern Android compatibility and user experience optimization.
+**Updated** The addition of comprehensive release signing configuration makes this application production-ready for distribution on the Google Play Store and other Android app stores. The keystore management and signing configuration follow industry best practices for secure application distribution.
+
+This implementation serves as an excellent foundation for similar hybrid applications requiring native system integration alongside web-based content delivery, with particular strength in modern Android compatibility, user experience optimization, and production deployment readiness.
