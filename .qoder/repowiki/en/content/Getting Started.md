@@ -2,6 +2,7 @@
 
 <cite>
 **Referenced Files in This Document**
+- [README.md](file://README.md)
 - [ADMOB_SETUP.md](file://ADMOB_SETUP.md)
 - [build.gradle.kts](file://build.gradle.kts)
 - [app/build.gradle.kts](file://app/build.gradle.kts)
@@ -14,29 +15,100 @@
 - [app/src/main/res/values/strings.xml](file://app/src/main/res/values/strings.xml)
 </cite>
 
+## Update Summary
+**Changes Made**
+- Enhanced project overview with comprehensive features and architecture explanation from README.md
+- Added detailed tech stack information and project structure visualization
+- Integrated comprehensive getting started guide with prerequisites and build instructions
+- Expanded AdMob configuration section with step-by-step setup process
+- Added game mechanics and power-up system documentation
+- Included practical examples and troubleshooting guidance
+
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Prerequisites](#prerequisites)
-3. [Installation and Setup](#installation-and-setup)
-4. [First Run and Basic Configuration](#first-run-and-basic-configuration)
-5. [Project Structure Overview](#project-structure-overview)
-6. [Environment Preparation](#environment-preparation)
-7. [Running Your First Build](#running-your-first-build)
-8. [Common Setup Issues and Solutions](#common-setup-issues-and-solutions)
-9. [Practical Examples](#practical-examples)
-10. [Troubleshooting Guide](#troubleshooting-guide)
-11. [Conclusion](#conclusion)
+2. [Features](#features)
+3. [Architecture](#architecture)
+4. [Tech Stack](#tech-stack)
+5. [Prerequisites](#prerequisites)
+6. [Getting Started](#getting-started)
+7. [Installation and Setup](#installation-and-setup)
+8. [First Run and Basic Configuration](#first-run-and-basic-configuration)
+9. [Project Structure Overview](#project-structure-overview)
+10. [Environment Preparation](#environment-preparation)
+11. [Running Your First Build](#running-your-first-build)
+12. [Game Mechanics](#game-mechanics)
+13. [Common Setup Issues and Solutions](#common-setup-issues-and-solutions)
+14. [Practical Examples](#practical-examples)
+15. [Troubleshooting Guide](#troubleshooting-guide)
+16. [Conclusion](#conclusion)
 
 ## Introduction
 
-Welcome to the Ball Sort Puzzle Android game development guide! This project is a hybrid mobile application that combines native Android development with HTML5/JavaScript gameplay. The game features a WebView-based interface that renders the puzzle logic while leveraging Android's native capabilities for monetization, performance, and user experience.
+Welcome to the Tube Master Puzzle Android game development guide! This project is a vibrant ball-sort puzzle game that combines native Android development with HTML5/JavaScript gameplay. The game challenges players to sort colorful balls into glass test tubes in this brain-teasing, visually stunning mobile experience.
 
-The application uses a modern tech stack including Kotlin for Android development, WebView for rendering the HTML5 game, and Google AdMob for monetization. It demonstrates advanced concepts like JavaScript-to-Android bridging, immersive UI design, and responsive web development principles.
+The application uses a modern hybrid architecture featuring a native Android shell that wraps an HTML5/JavaScript game engine inside a WebView. This approach allows developers to leverage the power of web technologies for complex game logic while maintaining native Android capabilities for monetization, performance, and user experience.
+
+**Section sources**
+- [README.md:1-3](file://README.md#L1-L3)
+
+## Features
+
+Tube Master Puzzle offers an engaging and challenging puzzle experience with the following features:
+
+- **Brain-Teasing Puzzles**: Sort colored balls into test tubes until each tube contains only one color
+- **Progressive Difficulty**: Levels start simple and scale up with more tubes and colors
+- **Power-Ups**: Undo, Hint, Shuffle, and Add Tube to help through tough levels
+- **Coin Economy**: Earn coins by completing levels and use them for power-ups
+- **Stunning Visuals**: Neon-lit glass tubes, glossy 3D balls, and dark lab-themed backgrounds
+- **Ad-Supported**: Banner ads and interstitial ads (every 2 level completions) via AdMob
+
+**Section sources**
+- [README.md:21-29](file://README.md#L21-L29)
+
+## Architecture
+
+The app uses a **hybrid architecture** — a native Android shell wrapping an HTML5/JavaScript game engine inside a WebView.
+
+```
+Android Native (Kotlin)          HTML5 Game Engine
+┌─────────────────────┐          ┌──────────────────┐
+│  MainActivity       │          │  index.html       │
+│  ├─ WebView         │◄────────►│  ├─ Ball Physics  │
+│  ├─ AdMob (Banner)  │  JS      │  ├─ Level System  │
+│  ├─ AdMob (Interstitial)│Bridge │  ├─ Rendering     │
+│  ├─ Internet Check  │          │  └─ Game State     │
+│  └─ Immersive Mode  │          │                    │
+└─────────────────────┘          └──────────────────┘
+```
+
+### Key Components
+
+| Component | File | Description |
+|-----------|------|-------------|
+| Native Shell | [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt) | WebView setup, AdMob, immersive mode, internet check |
+| Game Engine | [index.html](app/src/main/assets/index.html) | Full HTML5/JS game with Tailwind CSS |
+| Marketing Site | [website/index.html](website/index.html) | Privacy policy & app landing page |
+| Ad Bridge | `AdBridge` inner class | JavaScript-to-Android bridge for ad triggers |
+
+**Section sources**
+- [README.md:32-56](file://README.md#L32-L56)
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Native | Kotlin, Android SDK 36, AppCompat |
+| Game Engine | HTML5, JavaScript, CSS3, Tailwind CSS |
+| Ads | Google AdMob (Banner + Interstitial) |
+| Build | Gradle (Kotlin DSL), AGP 9.0.1 |
+
+**Section sources**
+- [README.md:59-67](file://README.md#L59-L67)
 
 ## Prerequisites
 
 ### Android Studio Setup
-Before you begin developing the Ball Sort Puzzle game, ensure you have the following development environment configured:
+Before you begin developing the Tube Master Puzzle game, ensure you have the following development environment configured:
 
 - **Android Studio**: Latest stable version with Android SDK
 - **Android SDK**: Minimum SDK 29, Target SDK 36
@@ -44,31 +116,47 @@ Before you begin developing the Ball Sort Puzzle game, ensure you have the follo
 - **Git**: For version control and project cloning
 - **Gradle**: Built-in Gradle Wrapper for dependency management
 
-### Kotlin Knowledge Requirements
-This project requires intermediate Kotlin proficiency:
+### Development Environment Requirements
+- **Android SDK 36**: Required for optimal compatibility
+- **Min SDK 29**: Android 10+ requirement for immersive features
+- **Kotlin 2.0.21**: Latest stable Kotlin version
+- **AGP 9.0.1**: Android Gradle Plugin for modern build system
 
-- **Core Kotlin Concepts**: Classes, interfaces, extensions, coroutines
-- **Android Development**: Activities, fragments, lifecycle management
-- **WebView Integration**: JavaScript interfaces, client callbacks
-- **AdMob Integration**: Banner ads, interstitial ads, testing modes
-- **UI/UX Design**: Material Design, responsive layouts, immersive modes
+**Section sources**
+- [README.md:103-108](file://README.md#L103-L108)
+- [gradle/libs.versions.toml:11](file://gradle/libs.versions.toml#L11)
 
-### JavaScript Fundamentals
-Since the game logic is implemented in JavaScript within a WebView:
+## Getting Started
 
-- **HTML5/CSS3**: Responsive design, animations, Canvas API
-- **JavaScript ES6+**: Modern syntax, async/await, DOM manipulation
-- **Web Audio API**: Sound effects and audio processing
-- **Canvas API**: Particle systems and visual effects
-- **Event Handling**: Touch events, mouse events, cross-platform compatibility
+### Build & Run
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/chetanck03/games
+   cd games
+   ```
+
+2. **Open in Android Studio**
+   - Launch Android Studio
+   - Select "Open an Existing Project"
+   - Choose the project root directory
+   - Allow Android Studio to sync Gradle automatically
+
+3. **Sync Gradle and run**
+   - Wait for Gradle sync completion
+   - Connect a physical Android device (recommended)
+   - Run the app using the Run button or `Shift+F10`
+
+**Section sources**
+- [README.md:109-120](file://README.md#L109-L120)
 
 ## Installation and Setup
 
 ### Cloning the Repository
 1. Clone the repository using Git:
 ```bash
-git clone https://github.com/yourusername/ball-sort-puzzle.git
-cd ball-sort-puzzle
+git clone https://github.com/chetanck03/games
+cd games
 ```
 
 2. Verify the repository structure matches the expected project layout with the following directories:
@@ -103,30 +191,30 @@ The project uses modern Gradle configuration with version catalogs:
 
 **Section sources**
 - [build.gradle.kts:1-4](file://build.gradle.kts#L1-L4)
-- [app/build.gradle.kts:1-43](file://app/build.gradle.kts#L1-L43)
+- [app/build.gradle.kts:1-53](file://app/build.gradle.kts#L1-L53)
 - [gradle/libs.versions.toml:1-28](file://gradle/libs.versions.toml#L1-L28)
 - [settings.gradle.kts:1-27](file://settings.gradle.kts#L1-L27)
 - [gradle.properties:1-23](file://gradle.properties#L1-L23)
 
 ## First Run and Basic Configuration
 
-### Replacing Test AdMob IDs with Production IDs
-Before releasing your app, you must replace the test AdMob IDs with your production IDs:
+### AdMob Configuration
+The app uses test AdMob IDs. Before releasing to production, replace these in [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt):
 
-1. **Update Android Manifest**:
-   - Navigate to `app/src/main/AndroidManifest.xml`
-   - Locate the meta-data tag for APPLICATION_ID
-   - Replace the test value with your production AdMob App ID
+```kotlin
+private const val BANNER_AD_UNIT_ID = "ca-app-pub-XXXXX/YYYYY"
+private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-XXXXX/YYYYY"
+```
 
-2. **Update MainActivity**:
-   - Open `app/src/main/java/com/cktechhub/games/MainActivity.kt`
-   - Update `BANNER_AD_UNIT_ID` and `INTERSTITIAL_AD_UNIT_ID` constants
-   - These should match your production ad unit IDs from AdMob Console
+Also update the application ID in [AndroidManifest.xml](app/src/main/AndroidManifest.xml):
 
-3. **AdMob Console Setup**:
-   - Create an app in AdMob Console
-   - Generate Banner and Interstitial ad units
-   - Copy the generated IDs to replace the test values
+```xml
+<meta-data
+    android:name="com.google.android.gms.ads.APPLICATION_ID"
+    android:value="ca-app-pub-XXXXX~YYYYY" />
+```
+
+Interstitial ads show every **2 level completions** (configurable via `INTERSTITIAL_FREQUENCY`).
 
 ### Configuring Android SDK Versions
 The project is configured with specific SDK requirements:
@@ -152,6 +240,7 @@ The application uses a hybrid architecture combining native Android with WebView
 3. **Bridge Communication**: JavaScript can trigger Android functions through the `AndroidBridge` interface
 
 **Section sources**
+- [README.md:123-141](file://README.md#L123-L141)
 - [ADMOB_SETUP.md:1-104](file://ADMOB_SETUP.md#L1-L104)
 - [app/build.gradle.kts:5-17](file://app/build.gradle.kts#L5-L17)
 - [app/src/main/AndroidManifest.xml:9-28](file://app/src/main/AndroidManifest.xml#L9-L28)
@@ -159,7 +248,7 @@ The application uses a hybrid architecture combining native Android with WebView
 
 ## Project Structure Overview
 
-The Ball Sort Puzzle project follows a standard Android application structure with hybrid web integration:
+The Tube Master Puzzle project follows a standard Android application structure with hybrid web integration:
 
 ```mermaid
 graph TB
@@ -198,7 +287,7 @@ Manifest --> Drawables
 **Diagram sources**
 - [build.gradle.kts:1-4](file://build.gradle.kts#L1-L4)
 - [settings.gradle.kts:25-27](file://settings.gradle.kts#L25-L27)
-- [app/build.gradle.kts:1-43](file://app/build.gradle.kts#L1-L43)
+- [app/build.gradle.kts:1-53](file://app/build.gradle.kts#L1-L53)
 
 ### Key Project Components
 
@@ -307,6 +396,29 @@ After successful build completion:
 **Section sources**
 - [app/build.gradle.kts:19-27](file://app/build.gradle.kts#L19-L27)
 - [gradle.properties:9-13](file://gradle.properties#L9-L13)
+
+## Game Mechanics
+
+### Core Gameplay
+1. **Goal** — Sort all balls so each test tube contains balls of only one color
+2. **Moves** — Tap a tube to pick up the top ball, then tap another tube to drop it
+3. **Rules**:
+   - You can only place a ball on top of a ball of the same color, or into an empty tube
+   - Tubes have a maximum capacity (typically 4 balls)
+4. **Power-Ups**:
+   - **Undo** — Reverse the last move
+   - **Hint** — Highlights a valid move
+   - **Shuffle** — Randomly rearranges the balls
+   - **Add Tube** — Adds an extra empty tube for more flexibility
+
+### Progressive Difficulty
+The game features 15 progressive levels that increase in complexity:
+- **Level 1-4**: 2-3 colors, 3-4 balls per color, 3-4 tubes
+- **Level 5-10**: 4-6 colors, 4-5 balls per color, 6-8 tubes  
+- **Level 11-15**: 6-8 colors, 4-5 balls per color, 8-10 tubes
+
+**Section sources**
+- [README.md:144-156](file://README.md#L144-L156)
 
 ## Common Setup Issues and Solutions
 
@@ -485,7 +597,7 @@ git status
 
 ## Conclusion
 
-The Ball Sort Puzzle Android game provides an excellent foundation for hybrid mobile application development. By following this comprehensive setup guide, you'll have a fully functional development environment ready to modify, extend, and deploy your own version of the game.
+The Tube Master Puzzle Android game provides an excellent foundation for hybrid mobile application development. By following this comprehensive setup guide, you'll have a fully functional development environment ready to modify, extend, and deploy your own version of the game.
 
 Key takeaways for successful development:
 
@@ -496,4 +608,7 @@ Key takeaways for successful development:
 
 The project serves as a practical example of how to combine native Android capabilities with web technologies to create engaging mobile experiences. Whether you're modifying the existing game logic, adding new features, or building upon this foundation for your own projects, this setup provides the essential groundwork for success.
 
-Happy coding, and enjoy developing your Ball Sort Puzzle game!
+Happy coding, and enjoy developing your Tube Master Puzzle game!
+
+**Section sources**
+- [README.md:159-162](file://README.md#L159-L162)
