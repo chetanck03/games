@@ -22,20 +22,25 @@
   /* Logo glow */
   .logo-glow{text-shadow:0 0 20px rgba(120,80,255,0.8),0 0 40px rgba(60,160,255,0.5);}
 
-  /* Tube */
+  /* Tube - 3D glass tube */
   .tube{
     position:relative;display:flex;flex-direction:column;align-items:center;
     justify-content:flex-end;
-    border:2.5px solid rgba(255,255,255,0.25);
+    border:2px solid rgba(255,255,255,0.18);
     border-radius:0 0 999px 999px;
     border-top:none;
-    background:rgba(255,255,255,0.06);
-    backdrop-filter:blur(4px);
+    background:linear-gradient(180deg,rgba(255,255,255,0.03) 0%,rgba(255,255,255,0.08) 50%,rgba(255,255,255,0.04) 100%);
+    backdrop-filter:blur(6px);
     cursor:pointer;
     transition:transform 0.15s ease,box-shadow 0.15s ease;
     overflow:hidden;
     padding:3px 3px 5px;
     flex-shrink:0;
+  }
+  .tube::before{
+    content:'';position:absolute;top:0;left:3px;width:40%;height:100%;
+    background:linear-gradient(90deg,rgba(255,255,255,0.07),transparent);
+    border-radius:0 0 0 999px;pointer-events:none;z-index:1;
   }
   .tube.selected{
     transform:translateY(-12px) scale(1.05);
@@ -56,21 +61,35 @@
     to{box-shadow:0 0 30px rgba(255,200,50,1),0 0 60px rgba(255,150,0,0.5);}
   }
 
-  /* Ball */
+  /* Ball - realistic 3D sphere */
   .ball{
     border-radius:50%;
     transition:transform 0.15s ease;
     flex-shrink:0;
     position:relative;
+    overflow:hidden;
+  }
+  .ball::before{
+    content:'';position:absolute;
+    top:6%;left:12%;width:45%;height:28%;
+    border-radius:50%;
+    background:linear-gradient(180deg,rgba(255,255,255,0.25),transparent);
+    filter:blur(2px);
+    z-index:2;pointer-events:none;
   }
   .ball::after{
-    content:'';
-    position:absolute;
-    top:18%;left:22%;
-    width:28%;height:28%;
+    content:'';position:absolute;
+    top:12%;left:22%;width:18%;height:14%;
     border-radius:50%;
-    background:rgba(255,255,255,0.45);
+    background:rgba(255,255,255,0.4);
     filter:blur(1px);
+    z-index:3;pointer-events:none;
+  }
+  .ball-emoji{
+    position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    z-index:4;pointer-events:none;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,0.5));
   }
   .ball-drop{animation:ballDrop 0.28s cubic-bezier(.2,1.5,.5,1);}
   @keyframes ballDrop{
@@ -340,6 +359,10 @@
         <span class="text-white font-medium">Particles</span>
         <label class="toggle"><input type="checkbox" id="particleToggle" checked/><span class="slider"></span></label>
       </div>
+      <div class="border-t border-white/10 pt-4">
+        <span class="text-white font-medium text-sm">Ball Theme</span>
+        <div id="themeGrid" class="grid grid-cols-3 gap-2 mt-3"></div>
+      </div>
       <div class="border-t border-white/10 pt-4 flex flex-col gap-2">
         <button id="resetProgressBtn" class="btn-danger rounded-xl py-2.5 text-white text-sm font-semibold">Reset Progress</button>
       </div>
@@ -352,37 +375,114 @@
    CONFIGURATION
    ============================================================ */
 const LEVEL_CONFIG = [
-  {tubes:3, colors:2, ballsPerColor:3},   // L1  → 6 balls, 3 tubes (1 empty)
-  {tubes:4, colors:2, ballsPerColor:4},   // L2  → 8 balls, 4 tubes (2 empty)
-  {tubes:4, colors:3, ballsPerColor:4},   // L3  → 12 balls, 4 tubes (0 empty → +1 empty)
-  {tubes:5, colors:3, ballsPerColor:5},   // L4  → 15 balls, 5 tubes (2 empty)
-  {tubes:5, colors:4, ballsPerColor:5},   // L5  → 20 balls, 5 tubes (0 empty → +1)
-  {tubes:6, colors:4, ballsPerColor:6},   // L6  → 24 balls, 6 tubes (2 empty)
-  {tubes:6, colors:5, ballsPerColor:5},   // L7  → 25 balls, 6 tubes (1 empty)
-  {tubes:6, colors:5, ballsPerColor:6},   // L8  → 30 balls, 6 tubes (0 empty → +1)
-  {tubes:7, colors:5, ballsPerColor:7},   // L9  → 35 balls, 7 tubes (2 empty)
-  {tubes:7, colors:6, ballsPerColor:6},   // L10 → 36 balls, 7 tubes (1 empty)
-  {tubes:7, colors:6, ballsPerColor:7},   // L11 → 42 balls, 7 tubes (0 empty → +1)
-  {tubes:8, colors:6, ballsPerColor:8},   // L12 → 48 balls, 8 tubes (2 empty)
-  {tubes:8, colors:7, ballsPerColor:7},   // L13 → 49 balls, 8 tubes (1 empty)
-  {tubes:8, colors:7, ballsPerColor:8},   // L14 → 56 balls, 8 tubes (0 empty → +1)
-  {tubes:8, colors:8, ballsPerColor:8},   // L15 → 64 balls, 8 tubes (0 empty → +1)
+  {colors:2, ballsPerColor:3, emptyTubes:1},   // L1  → 6 balls, 3 tubes
+  {colors:2, ballsPerColor:4, emptyTubes:2},   // L2  → 8 balls, 4 tubes
+  {colors:3, ballsPerColor:4, emptyTubes:2},   // L3  → 12 balls, 5 tubes
+  {colors:3, ballsPerColor:4, emptyTubes:2},   // L4  → 12 balls, 5 tubes (harder scramble)
+  {colors:4, ballsPerColor:4, emptyTubes:2},   // L5  → 16 balls, 6 tubes
+  {colors:4, ballsPerColor:5, emptyTubes:2},   // L6  → 20 balls, 6 tubes
+  {colors:5, ballsPerColor:4, emptyTubes:2},   // L7  → 20 balls, 7 tubes
+  {colors:5, ballsPerColor:5, emptyTubes:2},   // L8  → 25 balls, 7 tubes
+  {colors:5, ballsPerColor:5, emptyTubes:2},   // L9  → 25 balls, 7 tubes (harder scramble)
+  {colors:6, ballsPerColor:4, emptyTubes:2},   // L10 → 24 balls, 8 tubes
+  {colors:6, ballsPerColor:5, emptyTubes:2},   // L11 → 30 balls, 8 tubes
+  {colors:6, ballsPerColor:5, emptyTubes:2},   // L12 → 30 balls, 8 tubes (harder scramble)
+  {colors:7, ballsPerColor:4, emptyTubes:2},   // L13 → 28 balls, 9 tubes
+  {colors:7, ballsPerColor:5, emptyTubes:2},   // L14 → 35 balls, 9 tubes
+  {colors:8, ballsPerColor:4, emptyTubes:2},   // L15 → 32 balls, 10 tubes
 ];
 
 const TOTAL_LEVELS = LEVEL_CONFIG.length;
 
-const BALL_COLORS = [
-  {bg:'#e74c3c',glow:'rgba(231,76,60,0.7)',name:'Red'},
-  {bg:'#3498db',glow:'rgba(52,152,219,0.7)',name:'Blue'},
-  {bg:'#2ecc71',glow:'rgba(46,204,113,0.7)',name:'Green'},
-  {bg:'#f39c12',glow:'rgba(243,156,18,0.7)',name:'Orange'},
-  {bg:'#9b59b6',glow:'rgba(155,89,182,0.7)',name:'Purple'},
-  {bg:'#1abc9c',glow:'rgba(26,188,156,0.7)',name:'Teal'},
-  {bg:'#e91e63',glow:'rgba(233,30,99,0.7)',name:'Pink'},
-  {bg:'#ff5722',glow:'rgba(255,87,34,0.7)',name:'Deep Orange'},
-  {bg:'#cddc39',glow:'rgba(205,220,57,0.7)',name:'Lime'},
-  {bg:'#00bcd4',glow:'rgba(0,188,212,0.7)',name:'Cyan'},
-];
+const BALL_THEMES = {
+  fruits: {
+    name:'Fruits',
+    colors:[
+      {bg:'#e74c3c',glow:'rgba(231,76,60,0.7)',name:'Apple',emoji:'🍎'},
+      {bg:'#3498db',glow:'rgba(52,152,219,0.7)',name:'Blueberry',emoji:'🫐'},
+      {bg:'#f1c40f',glow:'rgba(241,196,15,0.7)',name:'Lemon',emoji:'🍋'},
+      {bg:'#2ecc71',glow:'rgba(46,204,113,0.7)',name:'Watermelon',emoji:'🍉'},
+      {bg:'#f39c12',glow:'rgba(243,156,18,0.7)',name:'Orange',emoji:'🍊'},
+      {bg:'#9b59b6',glow:'rgba(155,89,182,0.7)',name:'Grape',emoji:'🍇'},
+      {bg:'#ff1493',glow:'rgba(255,20,147,0.7)',name:'Strawberry',emoji:'🍓'},
+      {bg:'#1abc9c',glow:'rgba(26,188,156,0.7)',name:'Pear',emoji:'🍐'},
+      {bg:'#8bc34a',glow:'rgba(139,195,74,0.7)',name:'Kiwi',emoji:'🥝'},
+      {bg:'#e8825c',glow:'rgba(232,130,92,0.7)',name:'Mango',emoji:'🥭'},
+    ],
+    tubeBorder:'rgba(255,255,255,0.22)',
+    tubeGlow:'rgba(46,204,113,0.12)',
+  },
+  veggies: {
+    name:'Veggies',
+    colors:[
+      {bg:'#e74c3c',glow:'rgba(231,76,60,0.7)',name:'Chili',emoji:'🌶️'},
+      {bg:'#3498db',glow:'rgba(52,152,219,0.7)',name:'Cabbage',emoji:'🥬'},
+      {bg:'#f1c40f',glow:'rgba(241,196,15,0.7)',name:'Corn',emoji:'🌽'},
+      {bg:'#2ecc71',glow:'rgba(46,204,113,0.7)',name:'Pepper',emoji:'🫑'},
+      {bg:'#e67e22',glow:'rgba(230,126,34,0.7)',name:'Carrot',emoji:'🥕'},
+      {bg:'#9b59b6',glow:'rgba(155,89,182,0.7)',name:'Beetroot',emoji:'💜'},
+      {bg:'#1abc9c',glow:'rgba(26,188,156,0.7)',name:'Cucumber',emoji:'🥒'},
+      {bg:'#ff1493',glow:'rgba(255,20,147,0.7)',name:'Radish',emoji:'🩷'},
+      {bg:'#8bc34a',glow:'rgba(139,195,74,0.7)',name:'Lettuce',emoji:'🥬'},
+      {bg:'#d4a574',glow:'rgba(212,165,116,0.7)',name:'Onion',emoji:'🧅'},
+    ],
+    tubeBorder:'rgba(39,174,96,0.22)',
+    tubeGlow:'rgba(46,204,113,0.12)',
+  },
+  gems: {
+    name:'Gems',
+    colors:[
+      {bg:'#e74c3c',glow:'rgba(231,76,60,0.8)',name:'Ruby',emoji:'❤️'},
+      {bg:'#3498db',glow:'rgba(52,152,219,0.8)',name:'Sapphire',emoji:'💎'},
+      {bg:'#f1c40f',glow:'rgba(241,196,15,0.8)',name:'Topaz',emoji:'💛'},
+      {bg:'#2ecc71',glow:'rgba(46,204,113,0.8)',name:'Emerald',emoji:'💚'},
+      {bg:'#f39c12',glow:'rgba(243,156,18,0.8)',name:'Amber',emoji:'🧡'},
+      {bg:'#9b59b6',glow:'rgba(155,89,182,0.8)',name:'Amethyst',emoji:'💜'},
+      {bg:'#ff1493',glow:'rgba(255,20,147,0.8)',name:'Rose Quartz',emoji:'🩷'},
+      {bg:'#1abc9c',glow:'rgba(26,188,156,0.8)',name:'Jade',emoji:'🩵'},
+      {bg:'#ecf0f1',glow:'rgba(236,240,241,0.6)',name:'Diamond',emoji:'🤍'},
+      {bg:'#2c3e50',glow:'rgba(44,62,80,0.8)',name:'Onyx',emoji:'🖤'},
+    ],
+    tubeBorder:'rgba(52,152,219,0.25)',
+    tubeGlow:'rgba(52,152,219,0.12)',
+  },
+  candy: {
+    name:'Candy',
+    colors:[
+      {bg:'#ff6b9d',glow:'rgba(255,107,157,0.7)',name:'Cotton Candy',emoji:'🍬'},
+      {bg:'#67e8f9',glow:'rgba(103,232,249,0.7)',name:'Blue Lolly',emoji:'🍭'},
+      {bg:'#fbbf24',glow:'rgba(251,191,36,0.7)',name:'Lemon Drop',emoji:'🍋'},
+      {bg:'#34d399',glow:'rgba(52,211,153,0.7)',name:'Mint Chip',emoji:'🌿'},
+      {bg:'#fb923c',glow:'rgba(251,146,60,0.7)',name:'Toffee',emoji:'🍮'},
+      {bg:'#a78bfa',glow:'rgba(167,139,250,0.7)',name:'Lavender',emoji:'💜'},
+      {bg:'#ff1493',glow:'rgba(255,20,147,0.7)',name:'Bubblegum',emoji:'🫧'},
+      {bg:'#1abc9c',glow:'rgba(26,188,156,0.7)',name:'Sour Apple',emoji:'🍏'},
+      {bg:'#8bc34a',glow:'rgba(139,195,74,0.7)',name:'Lime Fizz',emoji:'🫧'},
+      {bg:'#e8825c',glow:'rgba(232,130,92,0.7)',name:'Caramel',emoji:'🍯'},
+    ],
+    tubeBorder:'rgba(200,160,255,0.25)',
+    tubeGlow:'rgba(200,130,255,0.12)',
+  },
+  neon: {
+    name:'Neon',
+    colors:[
+      {bg:'#ff2d55',glow:'rgba(255,45,85,0.8)',name:'Neon Red',emoji:''},
+      {bg:'#00d4ff',glow:'rgba(0,212,255,0.8)',name:'Neon Blue',emoji:''},
+      {bg:'#f1c40f',glow:'rgba(241,196,15,0.8)',name:'Neon Yellow',emoji:''},
+      {bg:'#2ecc71',glow:'rgba(46,204,113,0.8)',name:'Neon Green',emoji:''},
+      {bg:'#ff9500',glow:'rgba(255,149,0,0.8)',name:'Neon Orange',emoji:''},
+      {bg:'#bf5af2',glow:'rgba(191,90,242,0.8)',name:'Neon Purple',emoji:''},
+      {bg:'#ff1493',glow:'rgba(255,20,147,0.8)',name:'Neon Pink',emoji:''},
+      {bg:'#1abc9c',glow:'rgba(26,188,156,0.8)',name:'Neon Teal',emoji:''},
+      {bg:'#8bc34a',glow:'rgba(139,195,74,0.8)',name:'Neon Lime',emoji:''},
+      {bg:'#e8825c',glow:'rgba(232,130,92,0.8)',name:'Neon Coral',emoji:''},
+    ],
+    tubeBorder:'rgba(255,255,255,0.22)',
+    tubeGlow:'rgba(120,80,255,0.15)',
+  },
+};
+
+const BALL_COLORS = [...BALL_THEMES.fruits.colors];
 
 /* ============================================================
    STATE
@@ -398,11 +498,13 @@ let state = {
   history: [],
   initialTubes: [],
   levelColors: [],
+  levelColorIndices: [],
   ballsPerColor: 4,
   solved: false,
   soundEnabled: true,
   animEnabled: true,
   particleEnabled: true,
+  currentTheme: 'fruits',
 };
 
 /* ============================================================
@@ -510,49 +612,77 @@ function shuffle(arr){
 
 function generateLevel(levelIdx){
   const cfg = LEVEL_CONFIG[levelIdx];
-  const {colors, ballsPerColor} = cfg;
-  let totalBalls = colors * ballsPerColor;
-  
-  // Calculate tubes: enough for all balls + at least 1-2 empty
-  let tubeCount = cfg.tubes;
-  let tubeCapacity = ballsPerColor;
-  
-  // Ensure we have enough empty tubes
-  let occupiedTubes = Math.ceil(totalBalls / tubeCapacity);
-  if(occupiedTubes >= tubeCount) tubeCount = occupiedTubes + 1;
+  const {colors, ballsPerColor, emptyTubes} = cfg;
+  const tubeCapacity = ballsPerColor;
+  const tubeCount = colors + emptyTubes;
 
-  // Pick colors
-  const shuffledColors = shuffle([...BALL_COLORS]).slice(0, colors);
-  state.levelColors = shuffledColors;
+  // Pick colors — use harmonized order, offset by level for variety
+  const theme = BALL_THEMES[state.currentTheme] || BALL_THEMES.fruits;
+  const offset = state.currentLevel % theme.colors.length;
+  const pickedColors = [];
+  const pickedIndices = [];
+  for(let i = 0; i < colors; i++){
+    const idx = (offset + i) % theme.colors.length;
+    pickedColors.push(theme.colors[idx]);
+    pickedIndices.push(idx);
+  }
+  state.levelColors = pickedColors;
+  state.levelColorIndices = pickedIndices;
   state.ballsPerColor = ballsPerColor;
 
-  // Build ball pool
-  let ballPool = [];
-  for(let c=0;c<colors;c++){
-    for(let b=0;b<ballsPerColor;b++) ballPool.push(c);
-  }
-  shuffle(ballPool);
-
-  // Fill tubes
+  // Start from SOLVED state: each color in its own tube
   let tubes = [];
-  let idx = 0;
-  for(let t=0;t<tubeCount;t++){
-    const balls = [];
-    while(balls.length < tubeCapacity && idx < ballPool.length){
-      balls.push(ballPool[idx++]);
-    }
-    tubes.push(balls);
+  for(let c = 0; c < colors; c++){
+    tubes.push(Array(ballsPerColor).fill(c));
   }
-  // Remaining balls if any → keep shuffling into existing
-  while(idx < ballPool.length){
-    const t = Math.floor(Math.random()*occupiedTubes);
-    if(tubes[t].length < tubeCapacity) tubes[t].push(ballPool[idx++]);
+  // Add empty tubes
+  for(let e = 0; e < emptyTubes; e++){
+    tubes.push([]);
   }
-  // Add empty tubes to reach tubeCount
-  while(tubes.length < tubeCount) tubes.push([]);
 
-  // Ensure puzzle is not already solved
+  // Scramble by making random valid moves from solved state
+  // More moves = harder puzzle. Scale with level.
+  const scrambleMoves = 50 + levelIdx * 30;
+  for(let m = 0; m < scrambleMoves; m++){
+    // Pick a random non-empty tube as source
+    const nonEmpty = [];
+    for(let t = 0; t < tubes.length; t++){
+      if(tubes[t].length > 0) nonEmpty.push(t);
+    }
+    const from = nonEmpty[Math.floor(Math.random() * nonEmpty.length)];
+
+    // Pick a random different tube as target (prefer valid moves)
+    const validTargets = [];
+    const otherTargets = [];
+    for(let t = 0; t < tubes.length; t++){
+      if(t === from) continue;
+      if(tubes[t].length >= tubeCapacity) continue;
+      if(tubes[t].length === 0 || tubes[t][tubes[t].length - 1] === tubes[from][tubes[from].length - 1]){
+        validTargets.push(t);
+      } else {
+        otherTargets.push(t);
+      }
+    }
+    let targets = validTargets.length > 0 ? validTargets : otherTargets;
+    if(targets.length === 0) continue;
+    const to = targets[Math.floor(Math.random() * targets.length)];
+
+    // Move ball
+    tubes[to].push(tubes[from].pop());
+  }
+
+  // Ensure puzzle is not already solved AND no tube is already complete
   if(isSolved(tubes, tubeCapacity, colors)){
+    return generateLevel(levelIdx);
+  }
+  let hasCompleteTube = false;
+  for(const tube of tubes){
+    if(tube.length === tubeCapacity){
+      const c = tube[0];
+      if(tube.every(b=>b===c)){ hasCompleteTube = true; break; }
+    }
+  }
+  if(hasCompleteTube){
     return generateLevel(levelIdx);
   }
 
@@ -624,6 +754,11 @@ function renderTubes(){
     if(isValidTarget(ti)) tubeEl.classList.add('valid-target');
     if(isTubeComplete(tube)) tubeEl.classList.add('complete');
 
+    // Apply theme tube styling
+    const theme = BALL_THEMES[state.currentTheme] || BALL_THEMES.fruits;
+    tubeEl.style.borderColor = theme.tubeBorder;
+    tubeEl.style.boxShadow = `0 0 12px ${theme.tubeGlow}`;
+
     // Render balls (bottom to top → reverse for flex-col end)
     const ballsCopy = [...tube].reverse();
     for(let bi=0;bi<state.ballsPerColor;bi++){
@@ -638,9 +773,20 @@ function renderTubes(){
         slot.className = 'ball';
         slot.style.width = ballSize+'px';
         slot.style.height = ballSize+'px';
-        slot.style.background = `radial-gradient(circle at 35% 35%, ${lighten(col.bg,40)}, ${col.bg} 60%, ${darken(col.bg,30)})`;
-        slot.style.boxShadow = `0 2px 8px ${col.glow}, inset 0 -2px 4px rgba(0,0,0,0.3)`;
-        slot.style.border = `1.5px solid rgba(255,255,255,0.2)`;
+        // Realistic sphere: subtle gradient, soft shadow, no harsh glow
+        slot.style.background = `radial-gradient(circle at 35% 30%, ${lighten(col.bg,30)}, ${col.bg} 50%, ${darken(col.bg,20)} 78%, ${darken(col.bg,40)})`;
+        slot.style.boxShadow = `0 2px 6px rgba(0,0,0,0.5), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.08)`;
+        slot.style.border = `1px solid rgba(255,255,255,0.08)`;
+        // Emoji overlay for themed balls
+        if(col.emoji){
+          const emojiEl = document.createElement('div');
+          emojiEl.className = 'ball-emoji';
+          const fontSize = Math.max(10, Math.round(ballSize * 0.52));
+          emojiEl.style.fontSize = fontSize+'px';
+          emojiEl.style.lineHeight = '1';
+          emojiEl.textContent = col.emoji;
+          slot.appendChild(emojiEl);
+        }
       } else {
         slot.style.background = 'transparent';
         slot.style.borderRadius = '50%';
@@ -975,20 +1121,30 @@ function startGame(){
 function renderPreviewTubes(){
   const container = document.getElementById('previewTubes');
   container.innerHTML='';
-  const previewColors = shuffle([...BALL_COLORS]).slice(0,3);
+  const theme = BALL_THEMES[state.currentTheme] || BALL_THEMES.fruits;
+  const previewColors = shuffle([...theme.colors]).slice(0,3);
   const tubeDefs = [[0,1,2],[1,0,2],[2,1,0],[]];
   tubeDefs.forEach(balls=>{
     const t = document.createElement('div');
     t.className='tube';
     t.style.width='32px';t.style.height='96px';
+    t.style.borderColor=theme.tubeBorder;
+    t.style.boxShadow=`0 0 10px ${theme.tubeGlow}`;
     balls.slice().reverse().forEach(ci=>{
       const b=document.createElement('div');
       b.className='ball';
       b.style.width='24px';b.style.height='24px';b.style.margin='1px 0';
       const col=previewColors[ci];
-      b.style.background=`radial-gradient(circle at 35% 35%, ${lighten(col.bg,40)}, ${col.bg} 60%, ${darken(col.bg,30)})`;
-      b.style.boxShadow=`0 2px 6px ${col.glow}`;
-      b.style.border='1px solid rgba(255,255,255,0.2)';
+      b.style.background=`radial-gradient(circle at 35% 30%, ${lighten(col.bg,30)}, ${col.bg} 50%, ${darken(col.bg,20)} 78%, ${darken(col.bg,40)})`;
+      b.style.boxShadow=`0 2px 5px rgba(0,0,0,0.4), inset 0 -1px 3px rgba(0,0,0,0.3)`;
+      b.style.border='1px solid rgba(255,255,255,0.08)';
+      if(col.emoji){
+        const e=document.createElement('div');
+        e.className='ball-emoji';
+        e.style.fontSize='12px';e.style.lineHeight='1';
+        e.textContent=col.emoji;
+        b.appendChild(e);
+      }
       t.appendChild(b);
     });
     container.appendChild(t);
@@ -1114,9 +1270,82 @@ function initSettings(){
   const s=localStorage.getItem('bsp_sound');
   const a=localStorage.getItem('bsp_anim');
   const p=localStorage.getItem('bsp_particle');
+  const t=localStorage.getItem('bsp_theme');
   if(s!==null){state.soundEnabled=s==='1';document.getElementById('soundToggle').checked=s==='1';}
   if(a!==null){state.animEnabled=a==='1';document.getElementById('animToggle').checked=a==='1';}
   if(p!==null){state.particleEnabled=p==='1';document.getElementById('particleToggle').checked=p==='1';}
+  if(t!==null && BALL_THEMES[t]){state.currentTheme=t;}
+  renderThemeGrid();
+  applyTheme();
+}
+
+function applyTheme(){
+  const theme = BALL_THEMES[state.currentTheme] || BALL_THEMES.fruits;
+  // Update in-game level colors using stored indices so ball order stays the same
+  if(state.levelColors && state.levelColors.length > 0 && state.levelColorIndices.length > 0){
+    for(let i=0;i<state.levelColors.length;i++){
+      const idx = state.levelColorIndices[i];
+      state.levelColors[i] = theme.colors[idx % theme.colors.length];
+    }
+  }
+  // Re-render if in game
+  if(!document.getElementById('gameScreen').classList.contains('hidden')){
+    renderTubes();
+  }
+  renderPreviewTubes();
+}
+
+function renderThemeGrid(){
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = '';
+  Object.keys(BALL_THEMES).forEach(key => {
+    const theme = BALL_THEMES[key];
+    const btn = document.createElement('button');
+    btn.style.cssText = `
+      display:flex;flex-direction:column;align-items:center;gap:4px;
+      padding:8px 4px;border-radius:12px;border:2px solid transparent;
+      background:rgba(255,255,255,0.06);cursor:pointer;transition:all 0.2s;
+    `;
+    if(key === state.currentTheme){
+      btn.style.borderColor = theme.colors[0].bg;
+      btn.style.background = 'rgba(255,255,255,0.12)';
+    }
+    btn.onmouseenter = ()=>{btn.style.transform='scale(1.05)';};
+    btn.onmouseleave = ()=>{btn.style.transform='scale(1)';};
+    // Mini ball previews (3 balls)
+    const ballsRow = document.createElement('div');
+    ballsRow.style.cssText = 'display:flex;gap:3px;';
+    for(let i=0;i<3;i++){
+      const miniBall = document.createElement('div');
+      const c = theme.colors[i];
+      if(c.emoji){
+        miniBall.style.cssText = `
+          width:20px;height:20px;display:flex;align-items:center;justify-content:center;
+          font-size:14px;line-height:1;
+        `;
+        miniBall.textContent = c.emoji;
+      } else {
+        miniBall.style.cssText = `
+          width:18px;height:18px;border-radius:50%;
+          background:radial-gradient(circle at 35% 30%, ${lighten(c.bg,30)}, ${c.bg} 55%, ${darken(c.bg,30)});
+          box-shadow:0 1px 3px rgba(0,0,0,0.3);
+        `;
+      }
+      ballsRow.appendChild(miniBall);
+    }
+    const label = document.createElement('span');
+    label.style.cssText = 'font-size:10px;color:rgba(255,255,255,0.7);font-weight:600;';
+    label.textContent = theme.name;
+    btn.appendChild(ballsRow);
+    btn.appendChild(label);
+    btn.onclick = ()=>{
+      state.currentTheme = key;
+      localStorage.setItem('bsp_theme',key);
+      renderThemeGrid();
+      applyTheme();
+    };
+    grid.appendChild(btn);
+  });
 }
 
 /* ============================================================
