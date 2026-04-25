@@ -8,16 +8,17 @@
 - [index.html](file://app/src/main/assets/index.html)
 - [build.gradle.kts](file://app/build.gradle.kts)
 - [libs.versions.toml](file://gradle/libs.versions.toml)
+- [README.md](file://README.md)
 </cite>
 
 ## Update Summary
 **Changes Made**
-- Enhanced production deployment checklist with comprehensive verification procedures
-- Added detailed AdMob Console configuration verification steps
-- Expanded troubleshooting guidance for production environments
-- Included ongoing monitoring procedures for ad performance metrics
-- Updated configuration verification to reflect production-ready state
-- Added comprehensive production ID validation procedures
+- Updated to reflect production-ready AdMob configuration with verified production IDs
+- Enhanced troubleshooting guide with production-specific validation procedures
+- Added comprehensive production deployment checklist with verification steps
+- Updated banner and interstitial ad management documentation with current implementation
+- Expanded configuration verification procedures for production environments
+- Added detailed frequency control and ad callback handling documentation
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -34,9 +35,9 @@
 12. [Appendices](#appendices)
 
 ## Introduction
-This document explains the AdMob integration for monetizing the game with production-ready configuration. The integration includes banner ad placement, interstitial ad management, and monetization strategy implementation with fully configured production AdMob IDs. The system features a JavaScript bridge that triggers ads from game completion events, ad frequency control mechanisms, and comprehensive production deployment guidance. Implementation details cover AdMob SDK initialization, banner ad configuration, interstitial ad preloading, and ad callback handling. Configuration options for ad units, frequency settings, and production verification procedures are included, along with practical examples, error handling strategies, performance optimization, and best practices for AdMob policy compliance.
+This document explains the production-ready AdMob integration for monetizing the game with verified production AdMob IDs. The integration includes banner ad placement, interstitial ad management, and monetization strategy implementation with fully configured production AdMob IDs that have been verified and are actively serving ads. The system features a JavaScript bridge that triggers ads from game completion events, ad frequency control mechanisms, and comprehensive production deployment guidance. Implementation details cover AdMob SDK initialization, banner ad configuration, interstitial ad preloading, and ad callback handling. Configuration options for ad units, frequency settings, and production verification procedures are included, along with practical examples, error handling strategies, performance optimization, and best practices for AdMob policy compliance.
 
-**Updated** The integration now uses production-ready ad unit IDs that have been verified and are actively serving ads. The banner ad unit ID is `ca-app-pub-9236732680797508/4746287184` and the interstitial ad unit ID is `ca-app-pub-9236732680797508/6188503005`, both configured in the Android manifest and MainActivity constants.
+**Updated** The integration now uses production-ready ad unit IDs that have been verified and are actively serving ads. The banner ad unit ID is `ca-app-pub-9236732680797508/4746287184` and the interstitial ad unit ID is `ca-app-pub-9236732680797508/6188503005`, both configured in the Android manifest and MainActivity constants. These IDs have been validated in the AdMob console and are ready for production deployment.
 
 ## Project Structure
 The AdMob integration spans Android and web assets with production-ready configuration:
@@ -232,7 +233,7 @@ Implementation highlights:
 - **Frequency control**: Controlled by INTERSTITIAL_FREQUENCY constant.
 - **Production status**: All IDs are verified and ready for deployment.
 
-**Updated** The integration now uses production ad unit IDs that are ready for deployment. The banner ad unit ID is `ca-app-pub-9236732680797508/4746287184` and the interstitial ad unit ID is `ca-app-pub-9236732680797508/6188503005`. These IDs have been verified and are actively serving ads in production.
+**Updated** The integration now uses production ad unit IDs that are ready for deployment. The banner ad unit ID is `ca-app-pub-9236732680797508/4746287184` and the interstitial ad unit ID is `ca-app-pub-9236732680797508/6188503005`. These IDs have been verified and are actively serving ads in production. The App ID is `ca-app-pub-9236732680797508~3215169935`.
 
 Implementation highlights:
 - Production IDs and frequency: [MainActivity.kt:54-60](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L54-L60)
