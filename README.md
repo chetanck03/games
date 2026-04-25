@@ -1,30 +1,33 @@
-# Tube Master Puzzle
+# Sortify: Ball Sort Puzzle
 
 A vibrant ball-sort puzzle game for Android — sort colorful balls into glass test tubes in this brain-teasing, visually stunning mobile experience.
 
-![Game Banner](app/src/main/assets/img/ball-banner.png)
-
 ## Screenshots
 
-| Tube Sort Puzzle | Gameplay | Victory |
+| Sortify | Gameplay | Hint |
 |:-----------:|:--------:|:-------:|
-| ![Home Screen](app/src/main/assets/img/balls-sort-logo.png) | ![Gameplay Level 48](app/src/main/assets/img/pic1.png) | ![Victory](app/src/main/assets/img/pic2.png) |
+| ![Home Screen](app/src/main/assets/sortify/pic0.png) | ![Gameplay](app/src/main/assets/sortify/pic1.png) | ![Victory](app/src/main/assets/sortify/pic2.png) |
 
-| Advanced Level | Balls & Tubes |
+| Level Select | In-Progress |
 |:--------------:|:-------------:|
-| ![Level 89](app/src/main/assets/img/pic3.png) | ![Balls](app/src/main/assets/img/balls.png) |
+| ![Level Select](app/src/main/assets/sortify/pic0.png) | ![In-Progress](app/src/main/assets/sortify/pic3.png) |
 
-![Play Button](app/src/main/assets/img/play.png)
+| Theme: Fruits | Theme: Gems | Theme: Neon |
+|:-----------:|:-----------:|:-----------:|
+| ![Fruits Theme](app/src/main/assets/sortify/pic4.png) | ![Gems Theme](app/src/main/assets/sortify/pic5.png) | ![Neon Theme](app/src/main/assets/sortify/pic6.png) |
+
+<img src="app/src/main/assets/sortify/pic7.png" alt="Game Preview" width="320"/>
 
 ---
 
 ## Features
 
-- **Brain-Teasing Puzzles** — Sort colored balls into test tubes until each tube contains only one color
-- **Progressive Difficulty** — Levels start simple and scale up with more tubes and colors
-- **Power-Ups** — Undo, Hint, Shuffle, and Add Tube to help through tough levels
-- **Coin Economy** — Earn coins by completing levels and use them for power-ups
-- **Stunning Visuals** — Neon-lit glass tubes, glossy 3D balls, and dark lab-themed backgrounds
+- **40 Brain-Teasing Levels** — Sort colored balls into test tubes until each tube contains only one color
+- **Progressive Difficulty** — Levels scale from 2 colors to 10 colors, with varying tube capacities
+- **5 Ball Themes** — Fruits, Veggies, Gems, Candy, and Neon — switch anytime in Settings
+- **Power-Ups** — Undo moves and get Hints to help through tough levels
+- **Scoring System** — +10 points per level win, progress saved locally
+- **Stunning Visuals** — Glass tubes with 3D glossy balls, particle effects, and dark themed backgrounds
 - **Ad-Supported** — Banner ads and interstitial ads (every 2 level completions) via AdMob
 
 ---
@@ -74,14 +77,17 @@ games/
 ├── app/
 │   ├── src/main/
 │   │   ├── assets/
-│   │   │   ├── img/                    # Game images & assets
-│   │   │   │   ├── ball-banner.png     # Promotional banner
+│   │   │   ├── img/                    # Legacy game images
+│   │   │   ├── sortify/                # Updated game screenshots
 │   │   │   │   ├── balls-sort-logo.png # Home screen logo
-│   │   │   │   ├── balls.png           # Balls & tubes graphic
-│   │   │   │   ├── pic1.png            # Gameplay screenshot (Level 48)
+│   │   │   │   ├── pic0.png            # Level select screen
+│   │   │   │   ├── pic1.png            # Gameplay screenshot
 │   │   │   │   ├── pic2.png            # Victory screen
-│   │   │   │   ├── pic3.png            # Advanced level (Level 89)
-│   │   │   │   └── play.png            # Play button graphic
+│   │   │   │   ├── pic3.png            # In-progress level
+│   │   │   │   ├── pic4.png            # Fruits theme
+│   │   │   │   ├── pic5.png            # Gems theme
+│   │   │   │   ├── pic6.png            # Neon theme
+│   │   │   │   └── pic7.png            # Game preview
 │   │   │   └── index.html              # HTML5 game engine
 │   │   ├── java/com/cktechhub/games/
 │   │   │   └── MainActivity.kt         # Native Android activity
@@ -151,8 +157,7 @@ Interstitial ads show every **2 level completions** (configurable via `INTERSTIT
 4. **Power-Ups**:
    - **Undo** — Reverse the last move
    - **Hint** — Highlights a valid move
-   - **Shuffle** — Randomly rearranges the balls
-   - **Add Tube** — Adds an extra empty tube for more flexibility
+   - **Restart** — Restart the current level from scratch
 
 ---
 

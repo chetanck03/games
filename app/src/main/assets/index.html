@@ -784,37 +784,32 @@ function renderTubes(){
     tubeEl.style.borderColor = theme.tubeBorder;
     tubeEl.style.boxShadow = `0 0 12px ${theme.tubeGlow}`;
 
-    // Render balls (bottom to top → reverse for flex-col end)
+    // Render balls (reversed so top ball is visually on top; flex-end pushes group to bottom)
     const ballsCopy = [...tube].reverse();
-    for(let bi=0;bi<state.ballsPerColor;bi++){
+    for(let bi=0;bi<ballsCopy.length;bi++){
       const slot = document.createElement('div');
       slot.style.width = ballSize+'px';
       slot.style.height = ballSize+'px';
       slot.style.flexShrink = '0';
       slot.style.margin = '1.5px 0';
-      if(bi < ballsCopy.length){
-        const colorIdx = ballsCopy[bi];
-        const col = state.levelColors[colorIdx];
-        slot.className = 'ball';
-        slot.style.width = ballSize+'px';
-        slot.style.height = ballSize+'px';
-        // Realistic sphere: subtle gradient, soft shadow, no harsh glow
-        slot.style.background = `radial-gradient(circle at 35% 30%, ${lighten(col.bg,30)}, ${col.bg} 50%, ${darken(col.bg,20)} 78%, ${darken(col.bg,40)})`;
-        slot.style.boxShadow = `0 2px 6px rgba(0,0,0,0.5), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.08)`;
-        slot.style.border = `1px solid rgba(255,255,255,0.08)`;
-        // Emoji overlay for themed balls
-        if(col.emoji){
-          const emojiEl = document.createElement('div');
-          emojiEl.className = 'ball-emoji';
-          const fontSize = Math.max(10, Math.round(ballSize * 0.52));
-          emojiEl.style.fontSize = fontSize+'px';
-          emojiEl.style.lineHeight = '1';
-          emojiEl.textContent = col.emoji;
-          slot.appendChild(emojiEl);
-        }
-      } else {
-        slot.style.background = 'transparent';
-        slot.style.borderRadius = '50%';
+      const colorIdx = ballsCopy[bi];
+      const col = state.levelColors[colorIdx];
+      slot.className = 'ball';
+      slot.style.width = ballSize+'px';
+      slot.style.height = ballSize+'px';
+      // Realistic sphere: subtle gradient, soft shadow, no harsh glow
+      slot.style.background = `radial-gradient(circle at 35% 30%, ${lighten(col.bg,30)}, ${col.bg} 50%, ${darken(col.bg,20)} 78%, ${darken(col.bg,40)})`;
+      slot.style.boxShadow = `0 2px 6px rgba(0,0,0,0.5), inset 0 -2px 4px rgba(0,0,0,0.4), inset 0 1px 2px rgba(255,255,255,0.08)`;
+      slot.style.border = `1px solid rgba(255,255,255,0.08)`;
+      // Emoji overlay for themed balls
+      if(col.emoji){
+        const emojiEl = document.createElement('div');
+        emojiEl.className = 'ball-emoji';
+        const fontSize = Math.max(10, Math.round(ballSize * 0.52));
+        emojiEl.style.fontSize = fontSize+'px';
+        emojiEl.style.lineHeight = '1';
+        emojiEl.textContent = col.emoji;
+        slot.appendChild(emojiEl);
       }
       tubeEl.appendChild(slot);
     }

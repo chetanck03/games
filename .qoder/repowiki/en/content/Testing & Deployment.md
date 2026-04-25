@@ -19,11 +19,11 @@
 
 ## Update Summary
 **Changes Made**
-- Added comprehensive Ball Sort Puzzle testing framework documentation
-- Included new test_levels.js test suite coverage for level generation algorithms
+- Added comprehensive Ball Sort Puzzle testing framework documentation with Node.js-based validation
 - Documented BFS and DFS solvers for puzzle solvability verification
-- Added quality assurance processes for all 40 game levels
-- Enhanced testing strategies with Node.js-based validation
+- Enhanced testing strategies with automated validation for all 40 game levels
+- Updated quality assurance processes with level generation algorithm validation
+- Added Node.js runtime requirements for comprehensive game testing
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -88,19 +88,19 @@ T --> C
 **Diagram sources**
 - [MainActivity.kt:1-441](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L1-L441)
 - [AndroidManifest.xml:1-51](file://app/src/main/AndroidManifest.xml#L1-L51)
-- [index.html:1-1385](file://app/src/main/assets/index.html#L1-L1385)
+- [index.html:1-1380](file://app/src/main/assets/index.html#L1-L1380)
 - [test_levels.js:1-504](file://test_levels.js#L1-L504)
 - [strings.xml:1-6](file://app/src/main/res/values/strings.xml#L1-L6)
 - [ExampleUnitTest.kt:1-17](file://app/src/test/java/com/cktechhub/games/ExampleUnitTest.kt#L1-L17)
 - [ExampleInstrumentedTest.kt:1-24](file://app/src/androidTest/java/com/cktechhub/games/ExampleInstrumentedTest.kt#L1-L24)
-- [build.gradle.kts:1-43](file://app/build.gradle.kts#L1-L43)
+- [build.gradle.kts:1-53](file://app/build.gradle.kts#L1-L53)
 - [proguard-rules.pro:1-21](file://app/proguard-rules.pro#L1-L21)
 - [build.gradle.kts:1-4](file://build.gradle.kts#L1-L4)
 - [settings.gradle.kts:1-27](file://settings.gradle.kts#L1-L27)
 - [libs.versions.toml:1-28](file://gradle/libs.versions.toml#L1-L28)
 
 **Section sources**
-- [build.gradle.kts:1-43](file://app/build.gradle.kts#L1-L43)
+- [build.gradle.kts:1-53](file://app/build.gradle.kts#L1-L53)
 - [settings.gradle.kts:1-27](file://settings.gradle.kts#L1-L27)
 - [libs.versions.toml:1-28](file://gradle/libs.versions.toml#L1-L28)
 - [build.gradle.kts:1-4](file://build.gradle.kts#L1-L4)
@@ -127,7 +127,7 @@ Key testing-relevant areas:
 - [ExampleUnitTest.kt:12-17](file://app/src/test/java/com/cktechhub/games/ExampleUnitTest.kt#L12-L17)
 - [ExampleInstrumentedTest.kt:17-24](file://app/src/androidTest/java/com/cktechhub/games/ExampleInstrumentedTest.kt#L17-L24)
 - [test_levels.js:1-504](file://test_levels.js#L1-L504)
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 
 ## Architecture Overview
 The app architecture centers around an Activity hosting a WebView that renders a local HTML5 game. The bridge between Android and JavaScript is implemented via a JavaScriptInterface. AdMob is initialized early and interstitials are shown based on game events. **New**: Node.js-based testing framework validates game logic independently of the Android environment.
@@ -154,7 +154,7 @@ TL --> JS
 **Diagram sources**
 - [MainActivity.kt:165-263](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L165-L263)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
-- [index.html:1-1385](file://app/src/main/assets/index.html#L1-L1385)
+- [index.html:1-1380](file://app/src/main/assets/index.html#L1-L1380)
 - [test_levels.js:1-504](file://test_levels.js#L1-L504)
 
 ## Detailed Component Analysis
@@ -185,7 +185,7 @@ Act->>Act : "increment counter<br/>check frequency<br/>showInterstitialAd()"
 **Section sources**
 - [MainActivity.kt:165-263](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L165-L263)
 - [MainActivity.kt:428-439](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L428-L439)
-- [index.html:1-1385](file://app/src/main/assets/index.html#L1-L1385)
+- [index.html:1-1380](file://app/src/main/assets/index.html#L1-L1380)
 
 ### Ball Sort Puzzle Testing Framework
 **New**: The test_levels.js file provides comprehensive validation of the Ball Sort Puzzle game logic, ensuring all 40 levels are generated correctly and remain solvable.
@@ -287,7 +287,7 @@ Common metrics:
 **Section sources**
 - [MainActivity.kt:131](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L131)
 - [MainActivity.kt:370-409](file://app/src/main/java/com/cktechhub/games/MainActivity.kt#L370-L409)
-- [index.html:1-1385](file://app/src/main/assets/index.html#L1-L1385)
+- [index.html:1-1380](file://app/src/main/assets/index.html#L1-L1380)
 
 ### Automated Testing Workflows
 Recommended Gradle tasks and CI configuration:
@@ -305,7 +305,7 @@ CI pipeline suggestions:
 
 **Section sources**
 - [build.gradle.kts:16](file://app/build.gradle.kts#L16)
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 - [test_levels.js:498-504](file://test_levels.js#L498-L504)
 
 ### Configuration Options for Testing Environments
@@ -316,7 +316,7 @@ CI pipeline suggestions:
 
 **Section sources**
 - [build.gradle.kts:16](file://app/build.gradle.kts#L16)
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 - [proguard-rules.pro:8-13](file://app/proguard-rules.pro#L8-L13)
 - [test_levels.js:1](file://test_levels.js#L1)
 
@@ -329,7 +329,7 @@ CI pipeline suggestions:
 - **New**: Difficulty progression: Ensures logical level scaling from easy to hard.
 
 **Section sources**
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 - [test_levels.js:328-355](file://test_levels.js#L328-L355)
 - [test_levels.js:431-458](file://test_levels.js#L431-L458)
 
@@ -378,12 +378,12 @@ TL --> Node
 ```
 
 **Diagram sources**
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 - [libs.versions.toml:13-21](file://gradle/libs.versions.toml#L13-L21)
 - [test_levels.js:1](file://test_levels.js#L1)
 
 **Section sources**
-- [build.gradle.kts:34-43](file://app/build.gradle.kts#L34-L43)
+- [build.gradle.kts:44-53](file://app/build.gradle.kts#L44-L53)
 - [libs.versions.toml:13-21](file://gradle/libs.versions.toml#L13-L21)
 
 ## Performance Considerations
@@ -445,7 +445,7 @@ This guide outlines a practical roadmap for testing and deploying the WebView-ba
 **Section sources**
 - [ADMOB_SETUP.md:1-104](file://ADMOB_SETUP.md#L1-L104)
 - [proguard-rules.pro:8-13](file://app/proguard-rules.pro#L8-L13)
-- [build.gradle.kts:20-26](file://app/build.gradle.kts#L20-L26)
+- [build.gradle.kts:28-37](file://app/build.gradle.kts#L28-L37)
 - [test_levels.js:431-458](file://test_levels.js#L431-L458)
 
 ### Appendix C: Ball Sort Puzzle Testing Framework Details
