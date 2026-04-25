@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Ball Sort Puzzle - Level Generation & Solvability Test
+ * Sortify: Ball Sort Puzzle - Level Generation & Solvability Test
  *
  * This test extracts the core game logic from index.html and verifies:
  * 1. All 40 levels generate valid puzzles (correct tube/ball counts)
@@ -322,7 +322,7 @@ function assertApprox(condition, message) {
 }
 
 console.log('═══════════════════════════════════════════════════════');
-console.log('  Ball Sort Puzzle - Level Generation & Solvability Test');
+console.log('  Sortify: Ball Sort Puzzle - Level Generation & Solvability Test');
 console.log('═══════════════════════════════════════════════════════\n');
 
 // ─── Test 1: Config integrity ────────────────────────────────────────

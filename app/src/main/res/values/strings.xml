@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Tube Master Puzzle</string>
+    <string name="app_name">Sortify: Ball Sort Puzzle</string>
     <string name="no_internet_title">No Internet Connection</string>
     <string name="no_internet_subtitle">Please check your network settings\nand try again.</string>
     <string name="retry_button">Retry</string>
