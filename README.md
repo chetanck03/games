@@ -1,72 +1,192 @@
-# Sortify: Ball Sort Puzzle
+<div align="center">
+  
+  # Sortify: Ball Sort Puzzle
+  
+  ### 40 Levels of Brain-Teasing Fun
+  
+  A vibrant ball-sort puzzle game for Android - sort colorful balls into glass test tubes in this visually stunning mobile experience.
+  
+  [![Android](https://img.shields.io/badge/Platform-Android-green.svg)](https://www.android.com/)
+  [![Min SDK](https://img.shields.io/badge/Min%20SDK-29-blue.svg)](https://developer.android.com/about/versions/10)
+  [![Target SDK](https://img.shields.io/badge/Target%20SDK-36-blue.svg)](https://developer.android.com/)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  
+</div>
 
-A vibrant ball-sort puzzle game for Android — sort colorful balls into glass test tubes in this brain-teasing, visually stunning mobile experience.
+---
+
+## Game Preview
+
+<div align="center">
+
+### Watch Sortify in Action
+
+<p align="center">
+  <video width="70%" controls>
+    <source src="app/src/main/assets/img/sortify.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+</p>
+
+### Game Banners
+
+<p align="center">
+  <img src="app/src/main/assets/img/banner1.png" alt="Sortify Banner 1" width="45%" />
+  <img src="app/src/main/assets/img/banner2.png" alt="Sortify Banner 2" width="45%" />
+</p>
+
+
+
+*Experience the addictive gameplay of sorting colorful balls through 40 challenging levels*
+
+</div>
+
+---
 
 ## Screenshots
 
-| Sortify | Gameplay | Hint |
-|:-----------:|:--------:|:-------:|
-| ![Home Screen](app/src/main/assets/sortify/pic0.png) | ![Gameplay](app/src/main/assets/sortify/pic1.png) | ![Victory](app/src/main/assets/sortify/pic2.png) |
+<div align="center">
 
-| Level Select | In-Progress |
+### Main Screens
+
+| Home Screen | Gameplay | Settings |
+|:-----------:|:--------:|:--------------:|
+| <img src="app/src/main/assets/sortify/pic0.png" width="250"/> | <img src="app/src/main/assets/sortify/pic1.png" width="250"/> | <img src="app/src/main/assets/sortify/pic3.png" width="250"/> |
+
+### HInt & Preview
+
+| Hint Screen | Game Preview |
 |:--------------:|:-------------:|
-| ![Level Select](app/src/main/assets/sortify/pic0.png) | ![In-Progress](app/src/main/assets/sortify/pic3.png) |
+| <img src="app/src/main/assets/sortify/pic2.png" width="250"/> | <img src="app/src/main/assets/sortify/pic7.png" width="250"/> |
 
-| Theme: Fruits | Theme: Gems | Theme: Neon |
+### Ball Themes
+
+| Level Complete! | Candy Theme | Gems Theme |
 |:-----------:|:-----------:|:-----------:|
-| ![Fruits Theme](app/src/main/assets/sortify/pic4.png) | ![Gems Theme](app/src/main/assets/sortify/pic5.png) | ![Neon Theme](app/src/main/assets/sortify/pic6.png) |
+| <img src="app/src/main/assets/sortify/pic4.png" width="250"/> | <img src="app/src/main/assets/sortify/pic5.png" width="250"/> | <img src="app/src/main/assets/sortify/pic6.png" width="250"/> |
 
-<img src="app/src/main/assets/sortify/pic7.png" alt="Game Preview" width="320"/>
+</div>
 
 ---
 
 ## Features
 
-- **40 Brain-Teasing Levels** — Sort colored balls into test tubes until each tube contains only one color
-- **Progressive Difficulty** — Levels scale from 2 colors to 10 colors, with varying tube capacities
-- **5 Ball Themes** — Fruits, Veggies, Gems, Candy, and Neon — switch anytime in Settings
-- **Power-Ups** — Undo moves and get Hints to help through tough levels
-- **Scoring System** — +10 points per level win, progress saved locally
-- **Stunning Visuals** — Glass tubes with 3D glossy balls, particle effects, and dark themed backgrounds
-- **Ad-Supported** — Banner ads and interstitial ads (every 2 level completions) via AdMob
+### 40 Challenging Levels
+Progress through 40 carefully crafted puzzle levels that will test your logic and strategy skills. Each level increases in complexity, keeping you engaged from start to finish.
+
+### Core Gameplay
+- **Objective**: Sort colored balls into test tubes until each tube contains only one color
+- **Progressive Difficulty**: Levels scale from 2 colors to 10 colors with varying tube capacities
+- **Strategic Thinking**: Plan your moves carefully to avoid getting stuck
+
+### Visual Customization
+- **5 Ball Themes**: Fruits, Veggies, Gems, Candy, and Neon
+- **Switch Anytime**: Change themes on-the-fly in Settings
+- **Stunning Graphics**: Glass tubes with 3D glossy balls, particle effects, and dark themed backgrounds
+
+### Power-Ups & Tools
+- **Undo**: Reverse your last move when you make a mistake
+- **Hint**: Get suggestions for valid moves when you're stuck
+- **Restart**: Start the current level fresh anytime
+
+### Progress Tracking
+- **Scoring System**: Earn +10 points for each level completion
+- **Local Save**: Your progress is automatically saved
+- **Level Unlocking**: Complete levels to unlock new challenges
+
+### Monetization
+- **Banner Ads**: Non-intrusive ads at the bottom of the screen
+- **Interstitial Ads**: Full-screen ads every 2 level completions (configurable)
+- **AdMob Integration**: Powered by Google AdMob
 
 ---
 
 ## Architecture
 
+<div align="center">
+
 The app uses a **hybrid architecture** — a native Android shell wrapping an HTML5/JavaScript game engine inside a WebView.
 
+</div>
+
 ```
-Android Native (Kotlin)          HTML5 Game Engine
-┌─────────────────────┐          ┌──────────────────┐
-│  MainActivity       │          │  index.html       │
-│  ├─ WebView         │◄────────►│  ├─ Ball Physics  │
-│  ├─ AdMob (Banner)  │  JS      │  ├─ Level System  │
-│  ├─ AdMob (Interstitial)│Bridge │  ├─ Rendering     │
-│  ├─ Internet Check  │          │  └─ Game State     │
-│  └─ Immersive Mode  │          │                    │
-└─────────────────────┘          └──────────────────┘
+┌──────────────────────────────────────────────────────┐
+│            Android Native (Kotlin)                   │
+│  ┌────────────────────────────────────────────────┐  │
+│  │         MainActivity.kt                        │  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────────┐    │  │
+│  │  │ WebView  │ │  AdMob   │ │Interstitial  │    │  │
+│  │  │          │ │  Banner  │ │              │    │  │
+│  │  └────┬─────┘ └──────────┘ └──────────────┘    │  │
+│  │       │                                        │  │
+│  │       │  JavaScript Bridge (AdBridge)          │  │
+│  │       │                                        │  │
+│  │  ┌────┴─────┐ ┌──────────┐ ┌──────────────┐    │  │
+│  │  │ Internet │ │Immersive │ │   Offline    │    │  │
+│  │  │  Check   │ │Full-Scrn │ │   Handling   │    │  │
+│  │  └──────────┘ └──────────┘ └──────────────┘    │  │
+│  └────────────────────────────────────────────────┘  │
+└────────────────────┬─────────────────────────────────┘
+                     │
+                     │ Bidirectional Communication
+                     │
+┌────────────────────┴─────────────────────────────────┐
+│        HTML5 Game Engine (index.html)                │
+│  ┌────────────────────────────────────────────────┐  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────────┐    │  │
+│  │  │   Ball   │ │  Level   │ │  Rendering   │    │  │
+│  │  │ Physics  │ │  System  │ │              │    │  │
+│  │  └──────────┘ └──────────┘ └──────────────┘    │  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────────┐    │  │
+│  │  │   Game   │ │  Theme   │ │  Animations  │    │  │
+│  │  │  State   │ │  System  │ │              │    │  │
+│  │  └──────────┘ └──────────┘ └──────────────┘    │  │
+│  │  ┌──────────┐ ┌──────────┐ ┌──────────────┐    │  │
+│  │  │ Scoring  │ │Power-Ups │ │  Particles   │    │  │
+│  │  │          │ │          │ │              │    │  │
+│  │  └──────────┘ └──────────┘ └──────────────┘    │  │
+│  └────────────────────────────────────────────────┘  │
+└──────────────────────────────────────────────────────┘
 ```
 
 ### Key Components
 
 | Component | File | Description |
 |-----------|------|-------------|
-| Native Shell | [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt) | WebView setup, AdMob, immersive mode, internet check |
-| Game Engine | [index.html](app/src/main/assets/index.html) | Full HTML5/JS game with Tailwind CSS |
-| Marketing Site | [website/index.html](website/index.html) | Privacy policy & app landing page |
-| Ad Bridge | `AdBridge` inner class | JavaScript-to-Android bridge for ad triggers |
+| **Native Shell** | [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt) | WebView setup, AdMob integration, immersive mode, internet connectivity check |
+| **Game Engine** | [index.html](app/src/main/assets/index.html) | Complete HTML5/JavaScript game with Tailwind CSS styling |
+| **Marketing Site** | [website/index.html](website/index.html) | Privacy policy & app landing page |
+| **Ad Bridge** | `AdBridge` inner class | JavaScript-to-Android bridge for triggering ads |
+| **Assets** | [app/src/main/assets/](app/src/main/assets/) | Game images, themes, and resources |
 
 ---
 
 ## Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Native | Kotlin, Android SDK 36, AppCompat |
-| Game Engine | HTML5, JavaScript, CSS3, Tailwind CSS |
-| Ads | Google AdMob (Banner + Interstitial) |
-| Build | Gradle (Kotlin DSL), AGP 9.0.1 |
+| Layer | Technology | Purpose |
+|-------|-----------|---------|
+| **Native** | Kotlin | Android application logic |
+| **SDK** | Android SDK 36 | Latest Android features |
+| **UI Framework** | AppCompat | Backward compatibility |
+| **Game Engine** | HTML5 + JavaScript | Core game logic and rendering |
+| **Styling** | CSS3 + Tailwind CSS | Responsive design and animations |
+| **Monetization** | Google AdMob | Banner and interstitial ads |
+| **Build System** | Gradle (Kotlin DSL) | Dependency management |
+| **Build Tools** | AGP 9.0.1 | Android Gradle Plugin |
+
+### Dependencies
+
+```kotlin
+// Core Android
+implementation("androidx.appcompat:appcompat:1.7.0")
+implementation("androidx.constraintlayout:constraintlayout:2.2.0")
+
+// Google AdMob
+implementation("com.google.android.gms:play-services-ads:23.6.0")
+
+// WebView
+implementation("androidx.webkit:webkit:1.12.1")
+```
 
 ---
 
@@ -77,29 +197,40 @@ games/
 ├── app/
 │   ├── src/main/
 │   │   ├── assets/
-│   │   │   ├── img/                    # Legacy game images
-│   │   │   ├── sortify/                # Updated game screenshots
-│   │   │   │   ├── balls-sort-logo.png # Home screen logo
-│   │   │   │   ├── pic0.png            # Level select screen
-│   │   │   │   ├── pic1.png            # Gameplay screenshot
-│   │   │   │   ├── pic2.png            # Victory screen
-│   │   │   │   ├── pic3.png            # In-progress level
-│   │   │   │   ├── pic4.png            # Fruits theme
-│   │   │   │   ├── pic5.png            # Gems theme
-│   │   │   │   ├── pic6.png            # Neon theme
-│   │   │   │   └── pic7.png            # Game preview
-│   │   │   └── index.html              # HTML5 game engine
+│   │   │   ├── img/                          # Banner images
+│   │   │   │   ├── banner.png
+│   │   │   │   ├── banner1.png
+│   │   │   │   ├── banner2.png
+│   │   │   │   └── sortify.mp4               # 🎬 Game preview video
+│   │   │   ├── sortify/                      # Game screenshots & assets
+│   │   │   │   ├── balls-sort-logo.png       # App logo
+│   │   │   │   ├── pic0.png                  # Home/Level select
+│   │   │   │   ├── pic1.png                  # Gameplay
+│   │   │   │   ├── pic2.png                  # Victory screen
+│   │   │   │   ├── pic3.png                  # In-progress level
+│   │   │   │   ├── pic4.png                  # Fruits theme
+│   │   │   │   ├── pic5.png                  # Gems theme
+│   │   │   │   ├── pic6.png                  # Neon theme
+│   │   │   │   └── pic7.png                  # Game preview
+│   │   │   └── index.html                    # 🎮 HTML5 game engine
 │   │   ├── java/com/cktechhub/games/
-│   │   │   └── MainActivity.kt         # Native Android activity
-│   │   ├── res/                        # Android resources
-│   │   └── AndroidManifest.xml
-│   └── build.gradle.kts
+│   │   │   ├── MainActivity.kt               # Main Android activity
+│   │   │   └── ui/                           # UI components
+│   │   ├── res/                              # Android resources
+│   │   │   ├── drawable/                     # Icons & graphics
+│   │   │   ├── layout/                       # XML layouts
+│   │   │   ├── mipmap/                       # App icons
+│   │   │   └── values/                       # Strings, colors, themes
+│   │   └── AndroidManifest.xml               # App configuration
+│   └── build.gradle.kts                      # App-level build config
 ├── website/
-│   └── index.html                      # Marketing/privacy site
+│   └── index.html                            # Marketing & privacy page
 ├── gradle/
-│   └── libs.versions.toml              # Dependency versions catalog
-├── build.gradle.kts
-└── settings.gradle.kts
+│   └── libs.versions.toml                    # Dependency versions catalog
+├── build.gradle.kts                          # Project-level build config
+├── settings.gradle.kts                       # Gradle settings
+├── README.md                                 # This file
+└── ADMOB_SETUP.md                            # AdMob configuration guide
 ```
 
 ---
@@ -108,59 +239,197 @@ games/
 
 ### Prerequisites
 
-- Android Studio (latest stable)
-- Android SDK 36
-- Min SDK 29 (Android 10+)
+Before you begin, ensure you have the following installed:
 
-### Build & Run
+- **Android Studio** (latest stable version)
+- **Android SDK 36** (Target SDK)
+- **Min SDK 29** (Android 10+)
+- **JDK 17** or higher
+- **Gradle 8.0+** (included with Android Studio)
 
-1. Clone the repository:
+### Installation & Setup
+
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/chetanck03/games
+   git clone https://github.com/chetanck03/games.git
    cd games
    ```
 
-2. Open in Android Studio
+2. **Open in Android Studio**
+   - Launch Android Studio
+   - Select "Open an Existing Project"
+   - Navigate to the cloned `games` directory
+   - Click "OK"
 
-3. Sync Gradle and run on a device or emulator
+3. **Sync Gradle**
+   - Android Studio will automatically prompt to sync Gradle
+   - Wait for the sync to complete
+   - Resolve any dependency issues if prompted
+
+4. **Configure AdMob (Optional for Testing)**
+   - The app uses test AdMob IDs by default
+   - For production, see [AdMob Configuration](#-admob-configuration) section
+
+5. **Run the App**
+   - Connect an Android device (API 29+) or start an emulator
+   - Click the "Run" button (▶️) in Android Studio
+   - Select your target device
+   - Wait for the build to complete and app to launch
+
+### Quick Start Commands
+
+```bash
+# Build the project
+./gradlew build
+
+# Install on connected device
+./gradlew installDebug
+
+# Run tests
+./gradlew test
+
+# Clean build
+./gradlew clean
+```
 
 ---
 
 ## AdMob Configuration
 
-The app uses test AdMob IDs. Before releasing to production, replace these in [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt):
+The app comes with test AdMob IDs for development. Before releasing to production, you must replace these with your own AdMob IDs.
+
+### Step 1: Update Ad Unit IDs
+
+Edit [MainActivity.kt](app/src/main/java/com/cktechhub/games/MainActivity.kt):
 
 ```kotlin
-private const val BANNER_AD_UNIT_ID = "ca-app-pub-XXXXX/YYYYY"
-private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-XXXXX/YYYYY"
+// Replace with your actual AdMob IDs
+private const val BANNER_AD_UNIT_ID = "ca-app-pub-XXXXXXXXXXXXX/YYYYYYYYYY"
+private const val INTERSTITIAL_AD_UNIT_ID = "ca-app-pub-XXXXXXXXXXXXX/YYYYYYYYYY"
 ```
 
-Also update the application ID in [AndroidManifest.xml](app/src/main/AndroidManifest.xml):
+### Step 2: Update Application ID
+
+Edit [AndroidManifest.xml](app/src/main/AndroidManifest.xml):
 
 ```xml
 <meta-data
     android:name="com.google.android.gms.ads.APPLICATION_ID"
-    android:value="ca-app-pub-XXXXX~YYYYY" />
+    android:value="ca-app-pub-XXXXXXXXXXXXX~YYYYYYYYYY" />
 ```
 
-Interstitial ads show every **2 level completions** (configurable via `INTERSTITIAL_FREQUENCY`).
+### Step 3: Configure Ad Frequency
+
+Interstitial ads show every **2 level completions** by default. To change this, edit `MainActivity.kt`:
+
+```kotlin
+private const val INTERSTITIAL_FREQUENCY = 2  // Show ad every N levels
+```
+
+### Getting Your AdMob IDs
+
+1. Create an account at [AdMob](https://admob.google.com/)
+2. Create a new app in the AdMob console
+3. Create ad units for:
+   - Banner ad (320x50)
+   - Interstitial ad (Full screen)
+4. Copy the generated IDs and replace in the code
+
+### Testing Ads
+
+The app uses test IDs during development:
+- **Test Banner ID**: `ca-app-pub-3940256099942544/6300978111`
+- **Test Interstitial ID**: `ca-app-pub-3940256099942544/1033173712`
+
+For more details, see [ADMOB_SETUP.md](ADMOB_SETUP.md)
 
 ---
 
 ## Game Mechanics
 
-1. **Goal** — Sort all balls so each test tube contains balls of only one color
-2. **Moves** — Tap a tube to pick up the top ball, then tap another tube to drop it
+### How to Play
+
+1. **Goal**: Sort all balls so each test tube contains balls of only one color
+2. **Controls**: 
+   - Tap a tube to pick up the top ball
+   - Tap another tube to drop the ball
 3. **Rules**:
-   - You can only place a ball on top of a ball of the same color, or into an empty tube
+   - You can place a ball on top of another ball of the same color
+   - You can place a ball in an empty tube
+   - You cannot place a ball on a different colored ball
    - Tubes have a maximum capacity (typically 4 balls)
-4. **Power-Ups**:
-   - **Undo** — Reverse the last move
-   - **Hint** — Highlights a valid move
-   - **Restart** — Restart the current level from scratch
+
+### Power-Ups
+
+| Power-Up | Description | Usage |
+|----------|-------------|-------|
+| **Undo** | Reverse the last move | Perfect for correcting mistakes |
+| **Hint** | Highlights a valid move | Use when you're stuck |
+| **Restart** | Reset the current level | Start fresh with a new strategy |
+
+### Progression System
+
+- **40 Levels Total**: From beginner to expert difficulty
+- **Color Complexity**: Start with 2 colors, progress to 10 colors
+- **Tube Variations**: Different numbers of tubes and capacities per level
+- **Score Tracking**: Earn points and track your progress
 
 ---
 
 ## License
 
-This project is proprietary. All rights reserved.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+### MIT License Summary
+
+You are free to:
+- Use this project commercially
+- Modify and distribute the code
+- Use it privately
+- Sublicense the code
+
+Under the following conditions:
+- Include the original copyright notice and license in any copy
+- The software is provided "as is", without warranty
+
+---
+
+## Developer
+
+**Chetan Kumar**
+- GitHub: [@chetanck03](https://github.com/chetanck03)
+- Project: [Sortify - Ball Sort Puzzle](https://github.com/chetanck03/games)
+
+---
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+### How to Contribute
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## Support
+
+For issues, questions, or feedback:
+- Open an issue on [GitHub Issues](https://github.com/chetanck03/games/issues)
+- Contact via GitHub profile
+
+---
+
+<div align="center">
+  
+  ### Ready to Sort Some Balls?
+  
+  **Download and start playing through 40 challenging levels!**
+  
+  Made with love using Kotlin, HTML5, and JavaScript
+  
+</div>
