@@ -200,7 +200,7 @@ games/
 │   │   │   │   ├── banner.png
 │   │   │   │   ├── banner1.png
 │   │   │   │   ├── banner2.png
-│   │   │   │   └── sortify.mp4               # 🎬 Game preview video
+│   │   │   │   └── sortify.mp4               # Game preview video
 │   │   │   ├── sortify/                      # Game screenshots & assets
 │   │   │   │   ├── balls-sort-logo.png       # App logo
 │   │   │   │   ├── pic0.png                  # Home/Level select
@@ -211,7 +211,7 @@ games/
 │   │   │   │   ├── pic5.png                  # Gems theme
 │   │   │   │   ├── pic6.png                  # Neon theme
 │   │   │   │   └── pic7.png                  # Game preview
-│   │   │   └── index.html                    # 🎮 HTML5 game engine
+│   │   │   └── index.html                    # HTML5 game engine
 │   │   ├── java/com/cktechhub/games/
 │   │   │   ├── MainActivity.kt               # Main Android activity
 │   │   │   └── ui/                           # UI components
