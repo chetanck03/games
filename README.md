@@ -19,13 +19,13 @@
 
 <div align="center">
 
-### Watch Sortify in Action
+### Watch Game Trailer
 
 <a href="https://youtu.be/Px2MXnhq6CY">
-  <img src="https://img.youtube.com/vi/Px2MXnhq6CY/maxresdefault.jpg" alt="Sortify Gameplay Video" width="60%">
+  <img src="https://img.youtube.com/vi/Px2MXnhq6CY/maxresdefault.jpg" alt="Sortify Game Trailer" width="60%">
 </a>
 
-**[Click to watch the full gameplay video on YouTube](https://youtu.be/Px2MXnhq6CY)**
+**[Click to watch the official game trailer on YouTube](https://youtu.be/Px2MXnhq6CY)**
 
 *Experience the addictive gameplay of sorting colorful balls through 40 challenging levels*
 
