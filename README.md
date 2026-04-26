@@ -21,12 +21,15 @@
 
 ### Watch Sortify in Action
 
-<p align="center">
-  <video width="70%" controls>
-    <source src="app/src/main/assets/img/sortify.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</p>
+<a href="https://youtu.be/Px2MXnhq6CY">
+  <img src="https://img.youtube.com/vi/Px2MXnhq6CY/maxresdefault.jpg" alt="Sortify Gameplay Video" width="60%">
+</a>
+
+**[Click to watch the full gameplay video on YouTube](https://youtu.be/Px2MXnhq6CY)**
+
+*Experience the addictive gameplay of sorting colorful balls through 40 challenging levels*
+
+---
 
 ### Game Banners
 
@@ -34,10 +37,6 @@
   <img src="app/src/main/assets/img/banner1.png" alt="Sortify Banner 1" width="45%" />
   <img src="app/src/main/assets/img/banner2.png" alt="Sortify Banner 2" width="45%" />
 </p>
-
-
-
-*Experience the addictive gameplay of sorting colorful balls through 40 challenging levels*
 
 </div>
 
